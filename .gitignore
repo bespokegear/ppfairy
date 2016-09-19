@@ -1,6 +1,7 @@
 archive/*
 *~
 .*~
+.*swp
 **/build-uno
 **/build-nano
 **/build-pro5v328

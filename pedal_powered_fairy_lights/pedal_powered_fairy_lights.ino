@@ -183,6 +183,116 @@ void theaterChaseRainbow(uint8_t wait) {
   }
 }
 
+boolean checkSW1()
+{
+  // Here we check each of the switches
+  // Needs to be done relatively quickly
+  int buttonState1;             // the current reading from the input pin
+  int reading = digitalRead(SW1);
+  // If the switch changed, due to noise or pressing:
+  if (reading != lastButtonState1) {
+    // reset the debouncing timer
+    lastDebounceTime1 = millis();
+  }
+
+  if ((millis() - lastDebounceTime1) > debounceDelay) {
+    // whatever the reading is at, it's been there for longer
+    // than the debounce delay, so take it as the actual current state:
+
+    // if the button state has changed:
+    if (reading != buttonState1) {
+      buttonState1 = reading;
+      if (buttonState1 == LOW) {
+        Serial.println("SW1 PRESS");
+      }
+    }
+  }
+  // save the reading.  Next time through the loop,
+  // it'll be the lastButtonState:
+  lastButtonState1 = reading;
+  return(!buttonState1);
+}
+
+boolean checkSW2()
+{
+  // Here we check each of the switches
+  // Needs to be done relatively quickly
+  int buttonState2;             // the current reading from the input pin
+  int reading = digitalRead(SW2);
+  // If the switch changed, due to noise or pressing:
+  if (reading != lastButtonState2) {
+    // reset the debouncing timer
+    lastDebounceTime2 = millis();
+  }
+
+  if ((millis() - lastDebounceTime2) > debounceDelay) {
+    // whatever the reading is at, it's been there for longer
+    // than the debounce delay, so take it as the actual current state:
+
+    // if the button state has changed:
+    if (reading != buttonState2) {
+      buttonState2 = reading;
+      if (buttonState2 == LOW) {
+        Serial.println("SW2 PRESS");
+      }
+    }
+  }
+  // save the reading.  Next time through the loop,
+  // it'll be the lastButtonState:
+  lastButtonState2 = reading;
+  return(!buttonState2);
+}
+
+void overVoltageControl()
+{
+  // Our Input is the voltage value. Setpoint is voltSetPoint - adjustable via serial port
+  // The output is the FETcontrol PWM freq
+
+  // Read voltage V1:
+  voltageV1 = ((analogRead(V1)*3.3*570*100)/(1024*10)); // This gives the analog vbattery voltage
+  Serial.print("V1: ");
+  Serial.println(voltageV1);  
+
+
+  // Only need PWM is voltageV1 >VPWMSETPOINT (minus hysteresis)
+
+  if(voltageV1>=VPWMSETPOINT-VPWMHYSTERESIS)
+  {
+    // Firt calculate the error value
+    // This will be in mV and vary up to >1000
+    // If the value is 1000 then the voltage is at 14V and the FET should be fully ON
+    error = voltageV1 -(VPWMSETPOINT);    
+    
+    // Calculate the integral value. This will go down when error is negative
+    integral = integral + error;
+       
+    //Proportional gain
+    proportional = error;  // This is the PROPORTIONAL GAIN
+    
+    PWM1value = (proportional + integral)/120;  // This gives us a setpoint
+    
+     // Need to put some limits on this value:
+     if(PWM1value<=0)
+     {
+       PWM1value = 0;
+       integral = 0;
+       //proportional =0;  
+     }
+     if(PWM1value >=255)
+     {
+       PWM1value = 255;
+     }  
+  }
+  else
+  {
+    PWM1value = 0;
+    error=0;
+    integral=0;
+  }
+  analogWrite(PWM1,PWM1value);  // Sets the PWM value   
+  Serial.print("PWM1: ");
+  Serial.println(PWM1value);   
+}
 
 void setup() {
   
@@ -328,116 +438,4 @@ void loop() {
 
   delay(delaytime);
 } /*** END OF LOOP ****/
-
-
-boolean checkSW1()
-{
-  // Here we check each of the switches
-  // Needs to be done relatively quickly
-  int buttonState1;             // the current reading from the input pin
-  int reading = digitalRead(SW1);
-  // If the switch changed, due to noise or pressing:
-  if (reading != lastButtonState1) {
-    // reset the debouncing timer
-    lastDebounceTime1 = millis();
-  }
-
-  if ((millis() - lastDebounceTime1) > debounceDelay) {
-    // whatever the reading is at, it's been there for longer
-    // than the debounce delay, so take it as the actual current state:
-
-    // if the button state has changed:
-    if (reading != buttonState1) {
-      buttonState1 = reading;
-      if (buttonState1 == LOW) {
-        Serial.println("SW1 PRESS");
-      }
-    }
-  }
-  // save the reading.  Next time through the loop,
-  // it'll be the lastButtonState:
-  lastButtonState1 = reading;
-  return(!buttonState1);
-}
-boolean checkSW2()
-{
-  // Here we check each of the switches
-  // Needs to be done relatively quickly
-  int buttonState2;             // the current reading from the input pin
-  int reading = digitalRead(SW2);
-  // If the switch changed, due to noise or pressing:
-  if (reading != lastButtonState2) {
-    // reset the debouncing timer
-    lastDebounceTime2 = millis();
-  }
-
-  if ((millis() - lastDebounceTime2) > debounceDelay) {
-    // whatever the reading is at, it's been there for longer
-    // than the debounce delay, so take it as the actual current state:
-
-    // if the button state has changed:
-    if (reading != buttonState2) {
-      buttonState2 = reading;
-      if (buttonState2 == LOW) {
-        Serial.println("SW2 PRESS");
-      }
-    }
-  }
-  // save the reading.  Next time through the loop,
-  // it'll be the lastButtonState:
-  lastButtonState2 = reading;
-  return(!buttonState2);
-}
-
-void overVoltageControl()
-{
-  // Our Input is the voltage value. Setpoint is voltSetPoint - adjustable via serial port
-  // The output is the FETcontrol PWM freq
-
-  // Read voltage V1:
-  voltageV1 = ((analogRead(V1)*3.3*570*100)/(1024*10)); // This gives the analog vbattery voltage
-  Serial.print("V1: ");
-  Serial.println(voltageV1);  
-
-
-  // Only need PWM is voltageV1 >VPWMSETPOINT (minus hysteresis)
-
-  if(voltageV1>=VPWMSETPOINT-VPWMHYSTERESIS)
-  {
-    // Firt calculate the error value
-    // This will be in mV and vary up to >1000
-    // If the value is 1000 then the voltage is at 14V and the FET should be fully ON
-    error = voltageV1 -(VPWMSETPOINT);    
-    
-    // Calculate the integral value. This will go down when error is negative
-    integral = integral + error;
-       
-    //Proportional gain
-    proportional = error;  // This is the PROPORTIONAL GAIN
-    
-    PWM1value = (proportional + integral)/120;  // This gives us a setpoint
-    
-     // Need to put some limits on this value:
-     if(PWM1value<=0)
-     {
-       PWM1value = 0;
-       integral = 0;
-       //proportional =0;  
-     }
-     if(PWM1value >=255)
-     {
-       PWM1value = 255;
-     }  
-  }
-  else
-  {
-    PWM1value = 0;
-    error=0;
-    integral=0;
-  }
-  analogWrite(PWM1,PWM1value);  // Sets the PWM value   
-  Serial.print("PWM1: ");
-  Serial.println(PWM1value);   
-}
-
 
