@@ -1,0 +1,9 @@
+archive/*
+*~
+.*~
+**/build-uno
+**/build-nano
+**/build-pro5v328
+**/*.pyc
+**/*.o
+**/__pycache__
