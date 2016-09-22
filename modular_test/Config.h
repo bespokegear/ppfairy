@@ -7,12 +7,12 @@
 #define NEOPIXEL_PIN            4
 
 // VoltMode parameters
-#define PIXEL_COLOR             0xff500a
+#define VOLT_MODE_COLOR             0xff500a
 // in 100ths of a volt:
 #define VOLT_MODE_VMIN              1000
 // in 100ths of a volt:
 #define VOLT_MODE_VMAX              1600
-#define IncrementTime           (VOLT_MODE_VMAX - VOLT_MODE_VMIN)
+#define VOLT_MODE_TIME           (VOLT_MODE_VMAX - VOLT_MODE_VMIN)
 
 // General PIN config
 #define VoltagePin              A0

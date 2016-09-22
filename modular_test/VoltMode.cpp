@@ -15,7 +15,7 @@ void VoltMode::start()
 #endif
     DisplayMode::start();
     _lastPixel = 0;
-    _timeLeft = IncrementTime;
+    _timeLeft = VOLT_MODE_TIME;
 }
 
 void VoltMode::stop()
@@ -47,9 +47,9 @@ bool VoltMode::update()
         _timeLeft -= vIn;
     } else if (_lastPixel < _pixels.numPixels()) {
         _lastPixel++;
-        _pixels.setPixelColor(_lastPixel, PIXEL_COLOR);
+        _pixels.setPixelColor(_lastPixel, VOLT_MODE_COLOR);
         _pixels.show();
-        _timeLeft = IncrementTime;
+        _timeLeft = VOLT_MODE_TIME;
     }
     
     return true;
