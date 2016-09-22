@@ -4,7 +4,7 @@
 
 // LED strip details
 const neoPixelType NeoPixelType = NEO_GRB + NEO_KHZ800;
-const uint16_t     NumberOfPixels = 80;
+const uint16_t     NumberOfPixels = 84;
 const uint8_t      PixelPin = 6;
 
 // ChunkFill mode settings

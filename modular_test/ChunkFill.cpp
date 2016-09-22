@@ -21,6 +21,10 @@ ChunkFill::ChunkFill(const uint16_t numPixels,
 
 void ChunkFill::start()
 {
+#ifdef DEBUG
+    Serial.print(F("ChunkFill start pix="));
+    Serial.println(_pixels.numPixels());
+#endif
     DisplayMode::start();
     _currentChunk = 0;
     _lastIncrement = 0;
@@ -28,6 +32,10 @@ void ChunkFill::start()
 
 void ChunkFill::stop()
 {
+#ifdef DEBUG
+    Serial.print(F("ChunkFill stop pix="));
+    Serial.println(_pixels.numPixels());
+#endif
     DisplayMode::stop();
 }
 
@@ -35,13 +43,13 @@ bool ChunkFill::update()
 {
     float vIn = analogToVoltage(_vPin);
     bool win = false;
-    Serial.print(vIn);
-    Serial.print(" / ");
-    Serial.println(_vThresh);
+    //Serial.print(vIn);
+    //Serial.print(" / ");
+    //Serial.println(_vThresh);
     if (vIn >= _vThresh) {
-        Serial.print("WIN?    >> ");
+        //Serial.print("WIN?    >> ");
         win = incrementChunk();
-        Serial.println(win);
+        //Serial.println(win);
     }
     else {
         reset();
@@ -62,8 +70,8 @@ bool ChunkFill::incrementChunk()
     }
     _lastIncrement = millis();
     _currentChunk++;
-    Serial.print("incrementChunk, now: ");
-    Serial.println(_currentChunk);
+    //Serial.print("incrementChunk, now: ");
+    //Serial.println(_currentChunk);
     for(uint16_t i=0; i<_pixels.numPixels(); i++) {
         uint16_t chunk = i / _numChunks;
         _pixels.setPixelColor(i, getChunkColor(chunk, chunk <= _currentChunk));
@@ -73,7 +81,7 @@ bool ChunkFill::incrementChunk()
 
 void ChunkFill::reset()
 {
-    Serial.println("reset");
+    //Serial.println("reset");
     _pixels.clear();
     _currentChunk = 0;
 }
