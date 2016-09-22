@@ -46,9 +46,9 @@ bool VoltMode::update()
     if (_timeLeft > vIn) {
         _timeLeft -= vIn;
     } else if (_lastPixel < _pixels.numPixels()) {
-        _lastPixel++;
         _pixels.setPixelColor(_lastPixel, VOLT_MODE_COLOR);
         _pixels.show();
+        _lastPixel++;
         _timeLeft = VOLT_MODE_TIME;
     }
     

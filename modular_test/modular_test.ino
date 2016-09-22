@@ -1,11 +1,15 @@
 #include "Config.h"
 #include "LatchedButton.h"
 #include "VoltMode.h"
+#include "LoadControl.h"
 #include <Arduino.h>
 
 // See Config.h for pin and other configuration
 
 // Global variables
+LoadControl* loadControl;
+
+// Game modes
 const uint8_t NumberOfModes = 1;
 Mode* modes[NumberOfModes] = {NULL}; 
 uint8_t currentModeId = NumberOfModes-1;
@@ -13,6 +17,7 @@ uint8_t currentModeId = NumberOfModes-1;
 // Input buttons
 LatchedButton* resetButton;
 LatchedButton* modeButton;
+
 
 void nextMode()
 {
@@ -22,7 +27,7 @@ void nextMode()
     Serial.print(F(" -> "));
 #endif
     modes[currentModeId]->stop();
-    currentModeId  = (currentModeId + 1) % NumberOfModes;
+    currentModeId = (currentModeId + 1) % NumberOfModes;
 #ifdef DEBUG
     Serial.println(currentModeId);
 #endif
@@ -33,15 +38,16 @@ void setup()
 {
     Serial.begin(115200);
 
-    pinMode(PWM_LOAD_PIN, OUTPUT);
     pinMode(INDICATOR_LED_PIN, OUTPUT);
+
+    // Make an object for performing load control
+    loadControl = new LoadControl();
 
     // Construct input buttons (sets pin modes in constructor)
     resetButton = new LatchedButton(RESET_BUTTON_PIN);
     modeButton = new LatchedButton(MODE_BUTTON_PIN);
 
     // Ensure load is disconnected at start, indicator off
-    digitalWrite(PWM_LOAD_PIN, LOW);
     digitalWrite(INDICATOR_LED_PIN, LOW);
 
     // Create a display mode
@@ -59,9 +65,10 @@ void setup()
 
 void loop()
 {
+    loadControl->update();
     resetButton->update();
 
-    if (resetButton->wasPressed()){
+    if (resetButton->wasPressed()) {
 #ifdef DEBUG
         Serial.println(F("Reset pressed, swapping "));
 #endif
