@@ -1,0 +1,7 @@
+# Add -DDEBUG to have the program write debugging to serial
+CPPFLAGS = -DDEBUG
+ARDUINO_LIBS = EEPROM PedalPoweredFairyLights
+BOARD_TAG = uno
+
+include ../arduino_inc.mk
+

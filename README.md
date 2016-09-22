@@ -25,5 +25,11 @@ This alternative build system may also be used. It is an alternative to using th
 * Edit the arduino_inc.mk file and set the include line to point at where you installed Arduino-Makefile
 * In a shell, from the pedal_powered_fairy_lights directory, use the command "make upload" to build and install the code
 
+## LED 'flare' ideas
 
+* Random static burst
+* Plasma
+* Block bounce
+* Pour fill
+* Lightning
 
