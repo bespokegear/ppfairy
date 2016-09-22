@@ -9,11 +9,11 @@ public:
     ChunkFill(const uint16_t numPixels,      // number of LEDs in strip
               const uint8_t pixelPin,        // pin LED strip is connected to,
               neoPixelType pixelType,        // neopixel init flags
-              const uint16_t numChunks,      // number of chunks strip is divided into
-              const uint16_t millisPerChunk, // number of millis ontime to increment chunk
+              const uint16_t incrementTime,  // amount of accumulated voltage a chunk takes to advance
               const uint8_t vPin,            // pin to measure voltage on
-              const float vThresh,           // threshold voltage to increment
-              const uint8_t brightness=255); // brightness multiplier 0-255, 255 being 100%
+              const uint16_t vMin,           // minimum volts to use up chunkTime (in 100ths of a volt)
+              const uint16_t vMax,           // maximum volts to use up chunkTime (in 100ths of a volt)
+              const uint32_t color);         // color of "on" pixels
               
     virtual void start();
     virtual void stop();
@@ -22,18 +22,13 @@ public:
 
 private:
     Adafruit_NeoPixel pixels;
-    uint16_t _numChunks;
-    uint16_t _millisPerChunk;
+    uint16_t _incrementTime;
     uint8_t _vPin;
-    float _vThresh;
-    uint16_t _currentChunk;
-    unsigned long _lastIncrement;
-    uint8_t _brightness;
-
-    // Increment how many chunks are set and return true when all are full
-    bool incrementChunk();
-    void reset();
-    uint32_t getChunkColor(uint16_t chunk, bool on=true);
+    uint16_t _vMin;
+    uint16_t _vMax;
+    uint32_t _color;
+    uint16_t _lastPixel;
+    uint16_t _timeLeft;
 };
 
 #endif

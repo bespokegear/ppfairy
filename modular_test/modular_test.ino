@@ -9,16 +9,18 @@ const uint8_t      PixelPin = 4;
 
 // ChunkFill mode settings
 const uint16_t     NumberOfChunks = NumberOfPixels;
-const uint16_t     ChunkMillis = 4;
-const float        ThresholdVoltage = 12.0;
+const uint16_t     VoltageMin = 1000;      // in 100ths of a volt
+const uint16_t     VoltageMax = 1600;      // in 100ths of a volt
+const uint16_t     IncrementTime = VoltageMax - VoltageMin;
+const uint32_t     PixelColor = 0x403040;
 
 // Other pin configuration
 const uint8_t      VoltagePin = A0;
 const uint8_t      SwitchPin = 8;
 const uint8_t      PWMLoadPin = 5;
-const uint8_t      IndicatorLEDPin = 9; // LED on board
-const uint8_t      ResetButtonPin = 2;  // SW1
-const uint8_t      ModeButtonPin = 3;   // SW2
+const uint8_t      IndicatorLEDPin = 9;    // LED on board
+const uint8_t      ResetButtonPin = 2;     // SW1
+const uint8_t      ModeButtonPin = 3;      // SW2
 
 // Global variables
 const uint8_t NumberOfModes = 1;
@@ -60,7 +62,7 @@ void setup()
     digitalWrite(IndicatorLEDPin, LOW);
 
     // Create a display mode
-    modes[0] = new ChunkFill(NumberOfPixels, PixelPin, NEO_GRB + NEO_KHZ800, NumberOfChunks, ChunkMillis, VoltagePin, ThresholdVoltage, 64);
+    modes[0] = new ChunkFill(NumberOfPixels, PixelPin, NEO_GRB + NEO_KHZ800, IncrementTime, VoltagePin, VoltageMin, VoltageMax, PixelColor);
 
     // Let things settle
     delay(500);
