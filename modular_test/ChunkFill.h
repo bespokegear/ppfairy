@@ -12,11 +12,13 @@ public:
               const uint16_t numChunks,      // number of chunks strip is divided into
               const uint16_t millisPerChunk, // number of millis ontime to increment chunk
               const uint8_t vPin,            // pin to measure voltage on
-              const float vThresh);          // threshold "on" value
+              const float vThresh,           // threshold voltage to increment
+              const uint8_t brightness=255); // brightness multiplier 0-255, 255 being 100%
               
     virtual void start();
     virtual void stop();
     virtual bool update();
+    void win();
 
 private:
     Adafruit_NeoPixel pixels;
@@ -26,6 +28,7 @@ private:
     float _vThresh;
     uint16_t _currentChunk;
     unsigned long _lastIncrement;
+    uint8_t _brightness;
 
     // Increment how many chunks are set and return true when all are full
     bool incrementChunk();

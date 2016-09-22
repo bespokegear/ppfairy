@@ -8,22 +8,24 @@ ChunkFill::ChunkFill(const uint16_t numPixels,
                      const uint16_t numChunks,
                      const uint16_t millisPerChunk,
                      const uint8_t vPin,
-                     const float vThresh) :
+                     const float vThresh, 
+                     const uint8_t brightness) :
     DisplayMode(numPixels, pixelPin, pixelType),
     _numChunks(numChunks),
     _millisPerChunk(millisPerChunk),
     _vPin(vPin),
     _vThresh(vThresh),
     _currentChunk(0),
-    _lastIncrement(0)
+    _lastIncrement(0),
+    _brightness(brightness)
 {
 }
 
 void ChunkFill::start()
 {
 #ifdef DEBUG
-    Serial.print(F("ChunkFill start pix="));
-    Serial.println(_pixels.numPixels());
+    Serial.print(F("ChunkFill start bright="));
+    Serial.println(_brightness);
 #endif
     DisplayMode::start();
     _currentChunk = 0;
@@ -65,16 +67,9 @@ bool ChunkFill::update()
 
 bool ChunkFill::incrementChunk()
 {
-    if (millis() < _lastIncrement + _millisPerChunk) {
-        return _currentChunk>=_numChunks;
-    }
-    _lastIncrement = millis();
-    _currentChunk++;
-    //Serial.print("incrementChunk, now: ");
-    //Serial.println(_currentChunk);
-    for(uint16_t i=0; i<_pixels.numPixels(); i++) {
-        uint16_t chunk = i / _numChunks;
-        _pixels.setPixelColor(i, getChunkColor(chunk, chunk <= _currentChunk));
+    if (millis() >= _lastIncrement + _millisPerChunk) {
+        _lastIncrement = millis();
+        _pixels.setPixelColor(_currentChunk++, getChunkColor(_currentChunk));
     }
     return _currentChunk>=_numChunks;
 }
@@ -90,8 +85,12 @@ uint32_t ChunkFill::getChunkColor(uint16_t chunk, bool on)
 {
     if (!on) {
         return 0x000000;
-    } else {
-        return 0x000004 + (chunk*16);
-    }
+    } 
+    uint16_t r=( 255          * _brightness ) / 256;
+    uint16_t g=( 255          * _brightness ) / 256;
+    //uint16_t b=((4+(chunk*4)) * _brightness ) / 256;
+    uint16_t b=( 255          * _brightness ) / 256;
+    uint32_t col = (r*0x10000) + (g*0x100) + b;
+    return col;
 }
 

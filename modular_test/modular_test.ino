@@ -4,12 +4,12 @@
 
 // LED strip details
 const neoPixelType NeoPixelType = NEO_GRB + NEO_KHZ800;
-const uint16_t     NumberOfPixels = 84;
-const uint8_t      PixelPin = 6;
+const uint16_t     NumberOfPixels = PIXELS;
+const uint8_t      PixelPin = 4;
 
 // ChunkFill mode settings
-const uint16_t     NumberOfChunks = 8;
-const uint16_t     ChunkMillis = 100;
+const uint16_t     NumberOfChunks = NumberOfPixels;
+const uint16_t     ChunkMillis = 4;
 const float        ThresholdVoltage = 12.0;
 
 // Other pin configuration
@@ -21,8 +21,8 @@ const uint8_t      ResetButtonPin = 2;  // SW1
 const uint8_t      ModeButtonPin = 3;   // SW2
 
 // Global variables
-const uint8_t NumberOfModes = 2;
-Mode* modes[NumberOfModes] = {NULL, NULL};
+const uint8_t NumberOfModes = 1;
+Mode* modes[NumberOfModes] = {NULL}; 
 uint8_t currentModeId = NumberOfModes-1;
 
 // Input buttons
@@ -60,8 +60,7 @@ void setup()
     digitalWrite(IndicatorLEDPin, LOW);
 
     // Create a display mode
-    modes[0] = new ChunkFill(NumberOfPixels, PixelPin, NEO_GRB + NEO_KHZ800, NumberOfChunks, ChunkMillis, VoltagePin, ThresholdVoltage);
-    modes[1] = new ChunkFill(NumberOfPixels/2, PixelPin, NEO_GRB + NEO_KHZ800, NumberOfChunks, ChunkMillis, VoltagePin, ThresholdVoltage);
+    modes[0] = new ChunkFill(NumberOfPixels, PixelPin, NEO_GRB + NEO_KHZ800, NumberOfChunks, ChunkMillis, VoltagePin, ThresholdVoltage, 64);
 
     // Let things settle
     delay(500);
@@ -76,11 +75,11 @@ void setup()
 void loop()
 {
     //resetButton->update();
-    modeButton->update();
+    resetButton->update();
 
-    if (modeButton->wasPressed()){
+    if (resetButton->wasPressed()){
 #ifdef DEBUG
-        Serial.println(F("Mode pressed, swapping "));
+        Serial.println(F("Reset pressed, swapping "));
 #endif
         nextMode();
     }
