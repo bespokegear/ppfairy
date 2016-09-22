@@ -9,7 +9,7 @@
 class DebouncedButton {
 public:
     DebouncedButton(uint8_t pin, bool pullup=true);
-    void update();
+    virtual void update();
     bool isPressed();
 
 private:

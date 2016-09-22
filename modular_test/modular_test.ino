@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "DebouncedButton.h"
+#include "LatchedButton.h"
 #include "ChunkFill.h"
 
 // LED strip details
@@ -21,11 +21,28 @@ const uint8_t      ResetButtonPin = 2;  // SW1
 const uint8_t      ModeButtonPin = 3;   // SW2
 
 // Global variables
-Mode* CurrentMode = NULL;    // Current game mode
+const uint8_t NumberOfModes = 2;
+Mode* modes[NumberOfModes] = {NULL, NULL};
+uint8_t currentModeId = NumberOfModes-1;
 
 // Input buttons
-DebouncedButton* ResetButton;
-DebouncedButton* ModeButton;
+LatchedButton* resetButton;
+LatchedButton* modeButton;
+
+void nextMode()
+{
+#ifdef DEBUG
+    Serial.print(F("nextMode(), "));
+    Serial.print(currentModeId);
+    Serial.print(F(" -> "));
+#endif
+    modes[currentModeId]->stop();
+    currentModeId  = (currentModeId + 1) % NumberOfModes;
+#ifdef DEBUG
+    Serial.println(currentModeId);
+#endif
+    modes[currentModeId]->start();
+}
 
 void setup()
 {
@@ -35,28 +52,39 @@ void setup()
     pinMode(IndicatorLEDPin, OUTPUT);
 
     // Construct input buttons (sets pin modes in constructor)
-    ResetButton = new DebouncedButton(ResetButtonPin);
-    ModeButton = new DebouncedButton(ModeButtonPin);
+    resetButton = new LatchedButton(ResetButtonPin);
+    modeButton = new LatchedButton(ModeButtonPin);
 
     // Ensure load is disconnected at start, indicator off
     digitalWrite(PWMLoadPin, LOW);
     digitalWrite(IndicatorLEDPin, LOW);
 
     // Create a display mode
-    CurrentMode = new ChunkFill(NumberOfPixels, PixelPin, NEO_GRB + NEO_KHZ800, NumberOfChunks, ChunkMillis, VoltagePin, ThresholdVoltage);
+    modes[0] = new ChunkFill(NumberOfPixels, PixelPin, NEO_GRB + NEO_KHZ800, NumberOfChunks, ChunkMillis, VoltagePin, ThresholdVoltage);
+    modes[1] = new ChunkFill(NumberOfPixels/2, PixelPin, NEO_GRB + NEO_KHZ800, NumberOfChunks, ChunkMillis, VoltagePin, ThresholdVoltage);
 
     // Let things settle
     delay(500);
+
+    nextMode();
+
+#ifdef DEBUG
+    Serial.println(F("setup() E"));
+#endif
 }
 
 void loop()
 {
-    ResetButton->update();
-    ModeButton->update();
+    //resetButton->update();
+    modeButton->update();
 
-    // TODO: if Mode button pressed, swap mode
-    // TODO: handle Reset Button
+    if (modeButton->wasPressed()){
+#ifdef DEBUG
+        Serial.println(F("Mode pressed, swapping "));
+#endif
+        nextMode();
+    }
 
-    CurrentMode->update();
+    modes[currentModeId]->update();
 }
 

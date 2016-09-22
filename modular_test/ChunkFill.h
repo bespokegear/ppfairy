@@ -14,6 +14,8 @@ public:
               const uint8_t vPin,            // pin to measure voltage on
               const float vThresh);          // threshold "on" value
               
+    virtual void start();
+    virtual void stop();
     virtual bool update();
 
 private:

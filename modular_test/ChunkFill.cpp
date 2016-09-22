@@ -19,6 +19,18 @@ ChunkFill::ChunkFill(const uint16_t numPixels,
 {
 }
 
+void ChunkFill::start()
+{
+    DisplayMode::start();
+    _currentChunk = 0;
+    _lastIncrement = 0;
+}
+
+void ChunkFill::stop()
+{
+    DisplayMode::stop();
+}
+
 bool ChunkFill::update()
 {
     float vIn = analogToVoltage(_vPin);
@@ -35,7 +47,7 @@ bool ChunkFill::update()
         reset();
     }
 
-    // TODO: check for win
+    // TODO: handle win properly
     _pixels.show();
     if (win) {
         reset();

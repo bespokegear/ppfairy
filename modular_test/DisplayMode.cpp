@@ -14,7 +14,12 @@ DisplayMode::~DisplayMode()
     resetPixels();
 }
 
-void DisplayMode::brownout()
+void DisplayMode::start()
+{
+    resetPixels();   
+}
+
+void DisplayMode::stop()
 {
     resetPixels();   
 }

@@ -14,7 +14,8 @@ public:
                 const uint8_t pixelPin,   // pin LED strip is connected to,
                 neoPixelType pixelType);  // neopixel init flags
     virtual ~DisplayMode();
-    virtual void brownout();
+    virtual void start();
+    virtual void stop();
 
 protected:
     Adafruit_NeoPixel _pixels;
