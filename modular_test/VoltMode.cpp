@@ -29,7 +29,7 @@ void VoltMode::stop()
 
 bool VoltMode::update()
 {
-    uint16_t vIn = analogToVoltage(VoltagePin);
+    uint16_t vIn = highVoltageConversion(PEDAL_VOLTAGE_PIN);
     Serial.print(F("vIn="));
     Serial.print(vIn);
     if (vIn < VOLT_MODE_VMIN) {

@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-float analogToVoltage(const uint8_t pin);
+float highVoltageConversion(const uint8_t pin);
 
 #endif

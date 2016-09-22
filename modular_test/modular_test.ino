@@ -1,17 +1,9 @@
 #include "Config.h"
 #include "LatchedButton.h"
 #include "VoltMode.h"
-
 #include <Arduino.h>
 
 // See Config.h for pin and other configuration
-
-// Other pin configuration
-const uint8_t      SwitchPin = 8;
-const uint8_t      PWMLoadPin = 5;
-const uint8_t      IndicatorLEDPin = 9;    // LED on board
-const uint8_t      ResetButtonPin = 2;     // SW1
-const uint8_t      ModeButtonPin = 3;      // SW2
 
 // Global variables
 const uint8_t NumberOfModes = 1;
@@ -41,16 +33,16 @@ void setup()
 {
     Serial.begin(115200);
 
-    pinMode(PWMLoadPin, OUTPUT);
-    pinMode(IndicatorLEDPin, OUTPUT);
+    pinMode(PWM_LOAD_PIN, OUTPUT);
+    pinMode(INDICATOR_LED_PIN, OUTPUT);
 
     // Construct input buttons (sets pin modes in constructor)
-    resetButton = new LatchedButton(ResetButtonPin);
-    modeButton = new LatchedButton(ModeButtonPin);
+    resetButton = new LatchedButton(RESET_BUTTON_PIN);
+    modeButton = new LatchedButton(MODE_BUTTON_PIN);
 
     // Ensure load is disconnected at start, indicator off
-    digitalWrite(PWMLoadPin, LOW);
-    digitalWrite(IndicatorLEDPin, LOW);
+    digitalWrite(PWM_LOAD_PIN, LOW);
+    digitalWrite(INDICATOR_LED_PIN, LOW);
 
     // Create a display mode
     modes[0] = new VoltMode();
