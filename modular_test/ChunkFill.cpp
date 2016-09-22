@@ -2,20 +2,16 @@
 #include "Util.h"
 #include <Arduino.h>
 
-ChunkFill::ChunkFill(const uint16_t numPixels,
-                     const uint8_t pixelPin,
-                     neoPixelType pixelType,
+ChunkFill::ChunkFill(
                      const uint16_t incrementTime,
                      const uint8_t vPin,
                      const uint16_t vMin, 
-                     const uint16_t vMax, 
-                     const uint32_t color) :
-    DisplayMode(numPixels, pixelPin, pixelType),
+                     const uint16_t vMax) :
+    DisplayMode(),
     _incrementTime(incrementTime),
     _vPin(vPin),
     _vMin(vMin),
     _vMax(vMax),
-    _color(color),
     _lastPixel(0)
 {
 }
@@ -58,7 +54,7 @@ bool ChunkFill::update()
         _timeLeft -= vIn;
     } else if (_lastPixel < _pixels.numPixels()) {
         _lastPixel++;
-        _pixels.setPixelColor(_lastPixel, _color);
+        _pixels.setPixelColor(_lastPixel, PIXEL_COLOR);
         _pixels.show();
         _timeLeft = _incrementTime;
     }

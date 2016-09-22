@@ -1,9 +1,7 @@
 #include "DisplayMode.h"
 
-DisplayMode::DisplayMode(const uint16_t numPixels,
-                         const uint8_t pixelPin,
-                         neoPixelType pixelType) :
-    _pixels(numPixels, pixelPin, pixelType)
+DisplayMode::DisplayMode() :
+    _pixels(NUMBER_OF_PIXELS, NEOPIXEL_PIN, NEOPIXEL_TYPE)
 {
     _pixels.begin();
     _pixels.show();  // display unlit pixels (clears previous display)

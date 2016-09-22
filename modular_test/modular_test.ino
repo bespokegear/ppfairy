@@ -1,18 +1,13 @@
-#include <Arduino.h>
+#include "Config.h"
 #include "LatchedButton.h"
 #include "ChunkFill.h"
 
-// LED strip details
-const neoPixelType NeoPixelType = NEO_GRB + NEO_KHZ800;
-const uint16_t     NumberOfPixels = PIXELS;
-const uint8_t      PixelPin = 4;
+#include <Arduino.h>
 
 // ChunkFill mode settings
-const uint16_t     NumberOfChunks = NumberOfPixels;
 const uint16_t     VoltageMin = 1000;      // in 100ths of a volt
 const uint16_t     VoltageMax = 1600;      // in 100ths of a volt
 const uint16_t     IncrementTime = VoltageMax - VoltageMin;
-const uint32_t     PixelColor = 0x403040;
 
 // Other pin configuration
 const uint8_t      VoltagePin = A0;
@@ -62,7 +57,7 @@ void setup()
     digitalWrite(IndicatorLEDPin, LOW);
 
     // Create a display mode
-    modes[0] = new ChunkFill(NumberOfPixels, PixelPin, NEO_GRB + NEO_KHZ800, IncrementTime, VoltagePin, VoltageMin, VoltageMax, PixelColor);
+    modes[0] = new ChunkFill(IncrementTime, VoltagePin, VoltageMin, VoltageMax);
 
     // Let things settle
     delay(500);

@@ -1,6 +1,7 @@
 #ifndef DISPLAYMODE_H
 #define DISPLAYMODE_H
 
+#include "Config.h"
 #include "Mode.h"
 #include <stdint.h>
 #include "Adafruit_NeoPixel.h"
@@ -10,9 +11,8 @@
 
 class DisplayMode : public Mode {
 public:
-    DisplayMode(const uint16_t numPixels, // number of LEDs in strip
-                const uint8_t pixelPin,   // pin LED strip is connected to,
-                neoPixelType pixelType);  // neopixel init flags
+    // Note: takes params from NEOPIXEL_TYPE, NUMBER_OF_PIXELS, NEOPIXEL_PIN #defines
+    DisplayMode();
     virtual ~DisplayMode();
     virtual void start();
     virtual void stop();
