@@ -14,7 +14,8 @@ ChunkFill::ChunkFill(const uint16_t numPixels,
     _millisPerChunk(millisPerChunk),
     _vPin(vPin),
     _vThresh(vThresh),
-    _currentChunk(0)
+    _currentChunk(0),
+    _lastIncrement(0)
 {
 }
 
@@ -36,6 +37,9 @@ bool ChunkFill::update()
 
     // TODO: check for win
     _pixels.show();
+    if (win) {
+        reset();
+    }
     return win;
 }
 
