@@ -4,6 +4,8 @@
 
 #include <Arduino.h>
 
+// See Config.h for pin and other configuration
+
 // Other pin configuration
 const uint8_t      SwitchPin = 8;
 const uint8_t      PWMLoadPin = 5;
