@@ -21,11 +21,11 @@ const uint8_t      ResetButtonPin = 2;  // SW1
 const uint8_t      ModeButtonPin = 3;   // SW2
 
 // Global variables
-Mode* m = NULL;    // Current game mode
+Mode* CurrentMode = NULL;    // Current game mode
 
 // Input buttons
-DebouncedButton* ModeButton;
 DebouncedButton* ResetButton;
+DebouncedButton* ModeButton;
 
 void setup()
 {
@@ -43,7 +43,7 @@ void setup()
     digitalWrite(IndicatorLEDPin, LOW);
 
     // Create a display mode
-    m = new ChunkFill(NumberOfPixels, PixelPin, NEO_GRB + NEO_KHZ800, NumberOfChunks, ChunkMillis, VoltagePin, ThresholdVoltage);
+    CurrentMode = new ChunkFill(NumberOfPixels, PixelPin, NEO_GRB + NEO_KHZ800, NumberOfChunks, ChunkMillis, VoltagePin, ThresholdVoltage);
 
     // Let things settle
     delay(500);
@@ -54,14 +54,9 @@ void loop()
     ResetButton->update();
     ModeButton->update();
 
-    if (ResetButton->isPressed()) {
-        Serial.println(F("ResetButton pressed"));
-    }
+    // TODO: if Mode button pressed, swap mode
+    // TODO: handle Reset Button
 
-    if (ModeButton->isPressed()) {
-        Serial.println(F("ModeButton pressed"));
-    }
-
-    // m->update();
+    CurrentMode->update();
 }
 
