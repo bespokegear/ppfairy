@@ -1,6 +1,6 @@
 #include "Config.h"
 #include "LatchedButton.h"
-#include "ChunkFill.h"
+#include "VoltMode.h"
 
 #include <Arduino.h>
 
@@ -53,7 +53,7 @@ void setup()
     digitalWrite(IndicatorLEDPin, LOW);
 
     // Create a display mode
-    modes[0] = new ChunkFill();
+    modes[0] = new VoltMode();
 
     // Let things settle
     delay(500);

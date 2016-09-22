@@ -5,9 +5,9 @@
 #include "DisplayMode.h"
 #include <stdint.h>
 
-class ChunkFill : public DisplayMode {
+class VoltMode : public DisplayMode {
 public:
-    ChunkFill();
+    VoltMode();
               
     virtual void start();
     virtual void stop();

@@ -6,13 +6,13 @@
 #define NUMBER_OF_PIXELS        288
 #define NEOPIXEL_PIN            4
 
-// ChunkFill parameters
+// VoltMode parameters
 #define PIXEL_COLOR             0xff500a
 // in 100ths of a volt:
-#define VoltageMin              1000
+#define VOLT_MODE_VMIN              1000
 // in 100ths of a volt:
-#define VoltageMax              1600
-#define IncrementTime           (VoltageMax - VoltageMin)
+#define VOLT_MODE_VMAX              1600
+#define IncrementTime           (VOLT_MODE_VMAX - VOLT_MODE_VMIN)
 
 // General PIN config
 #define VoltagePin              A0

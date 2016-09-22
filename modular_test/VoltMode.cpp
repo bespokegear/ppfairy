@@ -1,45 +1,45 @@
-#include "ChunkFill.h"
+#include "VoltMode.h"
 #include "Util.h"
 #include <Arduino.h>
 
-ChunkFill::ChunkFill() :
+VoltMode::VoltMode() :
     DisplayMode(),
     _lastPixel(0)
 {
 }
 
-void ChunkFill::start()
+void VoltMode::start()
 {
 #ifdef DEBUG
-    Serial.println(F("ChunkFill start"));
+    Serial.println(F("VoltMode start"));
 #endif
     DisplayMode::start();
     _lastPixel = 0;
     _timeLeft = IncrementTime;
 }
 
-void ChunkFill::stop()
+void VoltMode::stop()
 {
 #ifdef DEBUG
-    Serial.print(F("ChunkFill stop"));
+    Serial.print(F("VoltMode stop"));
 #endif
     _lastPixel = 0;
     DisplayMode::stop();
 }
 
-bool ChunkFill::update()
+bool VoltMode::update()
 {
     uint16_t vIn = analogToVoltage(VoltagePin);
     Serial.print(F("vIn="));
     Serial.print(vIn);
-    if (vIn < VoltageMin) {
-        vIn = VoltageMin;
-    } else if (vIn > VoltageMax) {
-        vIn = VoltageMax;
+    if (vIn < VOLT_MODE_VMIN) {
+        vIn = VOLT_MODE_VMIN;
+    } else if (vIn > VOLT_MODE_VMAX) {
+        vIn = VOLT_MODE_VMAX;
     }
     Serial.print(F(", clipped="));
     Serial.print(vIn);
-    vIn -= VoltageMin;
+    vIn -= VOLT_MODE_VMIN;
     Serial.print(F(", adjust="));
     Serial.println(vIn);
 
