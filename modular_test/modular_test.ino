@@ -4,13 +4,7 @@
 
 #include <Arduino.h>
 
-// ChunkFill mode settings
-const uint16_t     VoltageMin = 1000;      // in 100ths of a volt
-const uint16_t     VoltageMax = 1600;      // in 100ths of a volt
-const uint16_t     IncrementTime = VoltageMax - VoltageMin;
-
 // Other pin configuration
-const uint8_t      VoltagePin = A0;
 const uint8_t      SwitchPin = 8;
 const uint8_t      PWMLoadPin = 5;
 const uint8_t      IndicatorLEDPin = 9;    // LED on board
@@ -57,7 +51,7 @@ void setup()
     digitalWrite(IndicatorLEDPin, LOW);
 
     // Create a display mode
-    modes[0] = new ChunkFill(IncrementTime, VoltagePin, VoltageMin, VoltageMax);
+    modes[0] = new ChunkFill();
 
     // Let things settle
     delay(500);

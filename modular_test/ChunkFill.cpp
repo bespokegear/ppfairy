@@ -2,16 +2,8 @@
 #include "Util.h"
 #include <Arduino.h>
 
-ChunkFill::ChunkFill(
-                     const uint16_t incrementTime,
-                     const uint8_t vPin,
-                     const uint16_t vMin, 
-                     const uint16_t vMax) :
+ChunkFill::ChunkFill() :
     DisplayMode(),
-    _incrementTime(incrementTime),
-    _vPin(vPin),
-    _vMin(vMin),
-    _vMax(vMax),
     _lastPixel(0)
 {
 }
@@ -23,7 +15,7 @@ void ChunkFill::start()
 #endif
     DisplayMode::start();
     _lastPixel = 0;
-    _timeLeft = _incrementTime;
+    _timeLeft = IncrementTime;
 }
 
 void ChunkFill::stop()
@@ -31,22 +23,23 @@ void ChunkFill::stop()
 #ifdef DEBUG
     Serial.print(F("ChunkFill stop"));
 #endif
+    _lastPixel = 0;
     DisplayMode::stop();
 }
 
 bool ChunkFill::update()
 {
-    uint16_t vIn = analogToVoltage(_vPin);
+    uint16_t vIn = analogToVoltage(VoltagePin);
     Serial.print(F("vIn="));
     Serial.print(vIn);
-    if (vIn < _vMin) {
-        vIn = _vMin;
-    } else if (vIn > _vMax) {
-        vIn = _vMax;
+    if (vIn < VoltageMin) {
+        vIn = VoltageMin;
+    } else if (vIn > VoltageMax) {
+        vIn = VoltageMax;
     }
     Serial.print(F(", clipped="));
     Serial.print(vIn);
-    vIn -= _vMin;
+    vIn -= VoltageMin;
     Serial.print(F(", adjust="));
     Serial.println(vIn);
 
@@ -56,7 +49,7 @@ bool ChunkFill::update()
         _lastPixel++;
         _pixels.setPixelColor(_lastPixel, PIXEL_COLOR);
         _pixels.show();
-        _timeLeft = _incrementTime;
+        _timeLeft = IncrementTime;
     }
     
     return true;
