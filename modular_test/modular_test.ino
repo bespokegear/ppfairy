@@ -76,14 +76,13 @@ void setup()
 
 void loop()
 {
-    //resetButton->update();
     resetButton->update();
 
     if (resetButton->wasPressed()){
 #ifdef DEBUG
         Serial.println(F("Reset pressed, swapping "));
 #endif
-        nextMode();
+        modes[currentModeId]->start();
     }
 
     modes[currentModeId]->update();
