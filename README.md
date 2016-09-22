@@ -33,3 +33,6 @@ This alternative build system may also be used. It is an alternative to using th
 * Pour fill
 * Lightning
 
+## Known Issues
+
+Because the Arduino IDE won't handle including a library from another library (version < 1.6.6), I copied the Neopixel library into the library we use... that way the build works  in the IDE.
