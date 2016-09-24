@@ -1,4 +1,5 @@
 #include "Config.h"
+#include "Heartbeat.h"
 #include "LatchedButton.h"
 #include "VoltMode.h"
 #include "LoadControl.h"
@@ -7,17 +8,16 @@
 // See Config.h for pin and other configuration
 
 // Global variables
+
+Heartbeat* heartbeat;
+LatchedButton* resetButton;
+LatchedButton* modeButton;
 LoadControl* loadControl;
 
 // Game modes
 const uint8_t NumberOfModes = 1;
 Mode* modes[NumberOfModes] = {NULL}; 
 uint8_t currentModeId = NumberOfModes-1;
-
-// Input buttons
-LatchedButton* resetButton;
-LatchedButton* modeButton;
-
 
 void nextMode()
 {
@@ -38,7 +38,8 @@ void setup()
 {
     Serial.begin(115200);
 
-    pinMode(INDICATOR_LED_PIN, OUTPUT);
+    // Set up the blinker
+    heartbeat = new Heartbeat(HEARTBEAT_LED_PIN);
 
     // Make an object for performing load control
     loadControl = new LoadControl();
@@ -48,6 +49,7 @@ void setup()
     modeButton = new LatchedButton(MODE_BUTTON_PIN);
 
     // Ensure load is disconnected at start, indicator off
+    pinMode(INDICATOR_LED_PIN, OUTPUT);
     digitalWrite(INDICATOR_LED_PIN, LOW);
 
     // Create a display mode
@@ -65,6 +67,7 @@ void setup()
 
 void loop()
 {
+    heartbeat->update();
     loadControl->update();
     resetButton->update();
 
