@@ -1,5 +1,4 @@
-#ifndef DISPLAYMODE_H
-#define DISPLAYMODE_H
+#pragma once
 
 #include "Config.h"
 #include "Mode.h"
@@ -24,4 +23,3 @@ protected:
 
 };
 
-#endif

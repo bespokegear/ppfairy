@@ -1,5 +1,4 @@
-#ifndef LOADCONTROL_H
-#define LOADCONTROL_H
+#pragma once
 
 #include "Config.h"
 #include "Mode.h"
@@ -22,5 +21,4 @@ private:
 
 };
 
-#endif
 

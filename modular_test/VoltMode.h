@@ -1,5 +1,4 @@
-#ifndef CHUNKFILL_H 
-#define CHUNKFILL_H
+#pragma once
 
 #include "Config.h"
 #include "DisplayMode.h"
@@ -18,4 +17,3 @@ private:
     uint16_t _timeLeft;
 };
 
-#endif

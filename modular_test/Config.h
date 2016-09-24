@@ -1,5 +1,4 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once
 
 // LED strip parameters
 #define NEOPIXEL_TYPE           (NEO_GRB + NEO_KHZ800)
@@ -27,10 +26,10 @@
 #define PEDAL_VOLTAGE_PIN       A0
 #define RESET_BUTTON_PIN        2
 #define MODE_BUTTON_PIN         3
+#define HEARTBEAT_LED_PIN       13
 #define INDICATOR_LED_PIN       9
 #define PWM_LOAD_PIN            5
 #define VPWMSETPOINT            2000 
 #define VPWMHYSTERESIS          500
 
-#endif
 

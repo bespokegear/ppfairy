@@ -1,5 +1,4 @@
-#ifndef DEBOUNCEDBUTTON_H
-#define DEBOUNCEDBUTTON_H
+#pragma once
 
 #include <stdint.h>
 
@@ -19,4 +18,3 @@ private:
     unsigned long _last;
 };
 
-#endif

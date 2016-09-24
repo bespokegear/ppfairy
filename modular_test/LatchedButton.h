@@ -1,5 +1,4 @@
-#ifndef LATCHEDBUTTON_H
-#define LATCHEDBUTTON_H
+#pragma once
 
 #include "DebouncedButton.h"
 
@@ -13,4 +12,3 @@ private:
     bool _pressed;
 };
 
-#endif
