@@ -7,7 +7,8 @@ LoadControl::LoadControl() :
     PWM1value(0),
     proportional(0),
     integral(0),
-    error(0)
+    error(0),
+    last(0)
 {
     pinMode(PWM_LOAD_PIN, OUTPUT);
     // Make sure the load is OFF to start with
@@ -16,6 +17,10 @@ LoadControl::LoadControl() :
 
 void LoadControl::modeUpdate()
 {
+    if (millis() < last + LOAD_CONTROL_PERIOD_MS) {
+        return;
+    }
+    last = millis();
     voltageV1 = highVoltageConversion(PEDAL_VOLTAGE_PIN);
     if (voltageV1 >= VPWMSETPOINT - VPWMHYSTERESIS) {
         // in mV and vary up to >1000

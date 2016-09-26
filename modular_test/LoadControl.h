@@ -18,6 +18,7 @@ private:
     long error;
     float voltageV1;
     float voltageV2;
+    unsigned long last;
 
 };
 
