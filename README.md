@@ -2,7 +2,7 @@
 
 ## Pre-requisites
 
-* Install the Arduino IDE
+* Install the Arduino IDE 1.6.6 or later
 ** Windows & Mac users may find a download link here: https://www.arduino.cc/en/Main/Software
 ** Major Linux distros carry it in their software repositories, or the link above may be used
 * Install the Adafruit_NeoPixel.h library: https://github.com/adafruit/Adafruit_NeoPixel
@@ -35,4 +35,4 @@ This alternative build system may also be used. It is an alternative to using th
 
 ## Known Issues
 
-Because the Arduino IDE won't handle including a library from another library (version < 1.6.6), I copied the Neopixel library into the library we use... that way the build works  in the IDE.
+Because the Arduino IDE won't handle including a library from another library (version < 1.6.6), you must use v 1.6.6 or later.
