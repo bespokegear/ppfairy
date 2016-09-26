@@ -98,16 +98,19 @@ void VoltMode::saveToEEPROM()
     Serial.print(F("VoltMode::saveToEEPROM <- "));
     Serial.println(_lastPixel);
 #endif
-    uint8_t* ptr = (uint8_t*)(&_lastPixel);
+    uint16_t lp = _lastPixel;
+    uint8_t* ptr = (uint8_t*)(&lp);
     EEPROM.write(VOLT_MODE_EEPROM_OFFSET+0, ptr[0]);
     EEPROM.write(VOLT_MODE_EEPROM_OFFSET+1, ptr[1]);
 }
 
 void VoltMode::restoreFromEEPROM()
 {
-    uint8_t* ptr = (uint8_t*)(&_lastPixel);
+    uint16_t lp;
+    uint8_t* ptr = (uint8_t*)(&lp);
     ptr[0] = EEPROM.read(0);
     ptr[1] = EEPROM.read(1);
+    _lastPixel = lp;
 #ifdef DEBUG
     Serial.print(F("VoltMode::restoreFromEEPROM -> "));
     Serial.println(_lastPixel);
