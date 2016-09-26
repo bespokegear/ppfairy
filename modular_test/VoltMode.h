@@ -15,13 +15,12 @@ public:
     virtual void exitBrownout();
 
 private:
-    uint16_t _lastPixel;
-    uint16_t _timeLeft;
+    float _lastPixel;
+    unsigned long _lastUpdate;
 
     void saveToEEPROM();
     void restoreFromEEPROM();
 
     void writePixels();
-
 };
 

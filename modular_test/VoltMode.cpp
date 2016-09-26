@@ -11,6 +11,7 @@ VoltMode::VoltMode() :
 #endif
     // get _lastPixel from EEPROM
     restoreFromEEPROM();
+    _lastUpdate = millis();
 }
 
 void VoltMode::start()
@@ -20,9 +21,10 @@ void VoltMode::start()
 #endif
     // fetch _lastPixel value from EEPROM
     _lastPixel = 0;
-    _timeLeft = VOLT_MODE_TIME;
     DisplayMode::start();
-    writePixels();
+    if (!isBrownedOut()) {
+        writePixels();
+    }
 }
 
 void VoltMode::stop()
@@ -36,10 +38,14 @@ void VoltMode::stop()
 
 void VoltMode::modeUpdate()
 {
+    float elapsed = (millis() - _lastUpdate) / 1000.;
+    _lastUpdate = millis();
     uint16_t vIn = highVoltageConversion(PEDAL_VOLTAGE_PIN);
 #ifdef DEBUGVIN
     Serial.print(F("vIn="));
     Serial.print(vIn);
+    Serial.print(F(", elapsed="));
+    Serial.print(elapsed);
 #endif
     if (vIn < VOLT_MODE_VMIN) {
         vIn = VOLT_MODE_VMIN;
@@ -50,21 +56,27 @@ void VoltMode::modeUpdate()
     Serial.print(F(", clipped="));
     Serial.print(vIn);
 #endif
-    vIn -= VOLT_MODE_VMIN;
+    uint16_t prevInt = (uint16_t)_lastPixel;
+    float linear = (float)(vIn-VOLT_MODE_VMIN) / (VOLT_MODE_VMAX-VOLT_MODE_VMIN);
+    float nonLinear = calculateLinearity(linear, VOLT_MODE_LINEARITY);
+    if (_lastPixel + nonLinear < NUMBER_OF_PIXELS+1) {
+        _lastPixel += nonLinear * (NUMBER_OF_PIXELS*elapsed/VOLT_MODE_FASTEST_SEC);
+    }
+    // have we gone up past another whole number?
 #ifdef DEBUGVIN
-    Serial.print(F(", adjust="));
-    Serial.println(vIn);
+    Serial.print(F(", lin="));
+    Serial.print(linear);
+    Serial.print(F(", nlin="));
+    Serial.print(nonLinear);
+    Serial.print(F(", lp="));
+    Serial.println(_lastPixel);
 #endif
-
-    if (_timeLeft > vIn) {
-        _timeLeft -= vIn;
-    } else if (_lastPixel < _pixels.numPixels()) {
+    if ((uint16_t)_lastPixel > prevInt && (uint16_t)_lastPixel <= _pixels.numPixels()) {
 #ifdef DEBUG
-    Serial.println(F("+pixel"));
+        Serial.print(F("+pixel, lp="));
+        Serial.println(_lastPixel);
 #endif
-        _lastPixel++;
         writePixels();
-        _timeLeft = VOLT_MODE_TIME;
     }
     
     return true;
@@ -78,7 +90,9 @@ void VoltMode::enterBrownout()
     _pixels.clear();
     _pixels.show();
     // saves _lastPixel;
+#ifndef NOEEPROM
     saveToEEPROM(); 
+#endif
 }
 
 void VoltMode::exitBrownout()
@@ -87,7 +101,9 @@ void VoltMode::exitBrownout()
     Serial.println(F("VoltMode::exitBrownout"));
 #endif
     // restore _lastPixel
+#ifndef NOEEPROM
     restoreFromEEPROM(); 
+#endif
     // restore pixels on LED strip
     writePixels();
 }
@@ -98,16 +114,22 @@ void VoltMode::saveToEEPROM()
     Serial.print(F("VoltMode::saveToEEPROM <- "));
     Serial.println(_lastPixel);
 #endif
-    uint8_t* ptr = (uint8_t*)(&_lastPixel);
+    uint16_t lp = _lastPixel;
+    uint8_t* ptr = (uint8_t*)(&lp);
     EEPROM.write(VOLT_MODE_EEPROM_OFFSET+0, ptr[0]);
     EEPROM.write(VOLT_MODE_EEPROM_OFFSET+1, ptr[1]);
 }
 
 void VoltMode::restoreFromEEPROM()
 {
-    uint8_t* ptr = (uint8_t*)(&_lastPixel);
+    uint16_t lp;
+    uint8_t* ptr = (uint8_t*)(&lp);
     ptr[0] = EEPROM.read(0);
     ptr[1] = EEPROM.read(1);
+    if (lp > NUMBER_OF_PIXELS) {
+        lp = NUMBER_OF_PIXELS;
+    }
+    _lastPixel = lp;
 #ifdef DEBUG
     Serial.print(F("VoltMode::restoreFromEEPROM -> "));
     Serial.println(_lastPixel);
@@ -120,7 +142,7 @@ void VoltMode::writePixels()
     Serial.println(F("VoltMode::writePixels"));
 #endif
     for (uint16_t i=0; i<_pixels.numPixels(); i++) {
-        if (i < _lastPixel) {
+        if (i < _lastPixel-1) {
             _pixels.setPixelColor(i, VOLT_MODE_COLOR_ON);
         } else {
             _pixels.setPixelColor(i, VOLT_MODE_COLOR_OFF);
