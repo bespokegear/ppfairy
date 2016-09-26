@@ -6,16 +6,18 @@
 #define NEOPIXEL_PIN                4
 
 // VoltMode parameters
-#define VOLT_MODE_ON_BASE_COLOR     0xFF500A
-#define VOLT_MODE_OFF_BASE_COLOR    0x000000
+#define VOLT_MODE_ON_BASE_COLOR     0xFF500AUL
+#define VOLT_MODE_OFF_BASE_COLOR    0x000000UL
 // in a range of 0-255:
 #define VOLT_MODE_BRIGHTNESS        255
 // in 100ths of a volt:
 #define VOLT_MODE_VMIN              1200
 // in 100ths of a volt:
-#define VOLT_MODE_VMAX              2000
-#define VOLT_MODE_SLOWDOWN          10
+#define VOLT_MODE_VMAX              3000
 #define VOLT_MODE_EEPROM_OFFSET     0
+#define VOLT_MODE_SLOWDOWN          10
+// range 0.0= cubic, 1.0=totally linear
+#define VOLT_MODE_LINEARITY         0.5
 
 // These are calculated by the preprocessor, so don't use CPU or RAM...  :)
 #define VOLT_MODE_TIME              ((VOLT_MODE_VMAX - VOLT_MODE_VMIN) * VOLT_MODE_SLOWDOWN)
