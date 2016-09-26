@@ -1,8 +1,7 @@
 # Add -DDEBUG to have the program write debugging to serial
-#CPPFLAGS = -DDEBUG -DDEBUGVIN -DNO_LOAD_CONTROL
-ARDUINO_LIBS = EEPROM
+#CPPFLAGS = -DDEBUG
+ARDUINO_LIBS = Adafruit_NeoPixel EEPROM
 BOARD_TAG = nano328
-#BOARD_TAG = uno
 
 include ../arduino_inc.mk
 
