@@ -16,12 +16,11 @@ public:
 
 private:
     float _lastPixel;
-    uint16_t _timeLeft;
+    unsigned long _lastUpdate;
 
     void saveToEEPROM();
     void restoreFromEEPROM();
 
     void writePixels();
-
 };
 

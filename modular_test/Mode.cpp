@@ -11,7 +11,7 @@ Mode::Mode() :
 void Mode::update()
 {
     float vIn = highVoltageConversion(PEDAL_VOLTAGE_PIN);
-#ifdef DEBUGVIN
+#if (defined(DEBUGVIN) && #defined(DEBUG))
     Serial.print(F("Mode::update, vIn="));
     Serial.println(vIn);
 #endif

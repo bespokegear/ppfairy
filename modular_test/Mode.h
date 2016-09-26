@@ -26,6 +26,8 @@ public:
     // called when vIn rises above BROWNOUT_HIGH
     virtual void exitBrownout() {;}
 
+    bool isBrownedOut() { return _brownedOut; }
+
 private:
     bool _brownedOut;
     void _enterBrownout();
