@@ -31,7 +31,7 @@ void VoltMode::stop()
 bool VoltMode::update()
 {
     uint16_t vIn = highVoltageConversion(PEDAL_VOLTAGE_PIN);
-#ifdef DEBUG
+#ifdef DEBUGVIN
     Serial.print(F("vIn="));
     Serial.print(vIn);
 #endif
@@ -40,12 +40,12 @@ bool VoltMode::update()
     } else if (vIn > VOLT_MODE_VMAX) {
         vIn = VOLT_MODE_VMAX;
     }
-#ifdef DEBUG
+#ifdef DEBUGVIN
     Serial.print(F(", clipped="));
     Serial.print(vIn);
 #endif
     vIn -= VOLT_MODE_VMIN;
-#ifdef DEBUG
+#ifdef DEBUGVIN
     Serial.print(F(", adjust="));
     Serial.println(vIn);
 #endif

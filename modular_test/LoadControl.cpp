@@ -46,7 +46,7 @@ bool LoadControl::update()
     analogWrite(PWM_LOAD_PIN, PWM1value);
 #endif
 
-#ifdef DEBUG
+#ifdef DEBUGLOAD
 #ifndef NO_LOAD_CONTROL
     Serial.print(F("PWM="));
 #else

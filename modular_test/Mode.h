@@ -11,6 +11,9 @@ public:
     // All Modes must also implement a stop() function
     virtual void stop() = 0;
 
+    // Optionally over-ride reset
+    virtual void reset() { start(); }
+
     // All Modes must implement an update() function
     // return true if the mode is running OK, false if it has quit
     virtual bool update() = 0;

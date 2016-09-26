@@ -3,7 +3,9 @@
 #include "LatchedButton.h"
 #include "VoltMode.h"
 #include "LoadControl.h"
+#include "MemoryFree.h"
 #include <Arduino.h>
+#include <avr/wdt.h>
 
 // See Config.h for pin and other configuration
 
@@ -13,25 +15,41 @@ Heartbeat* heartbeat;
 LatchedButton* resetButton;
 LatchedButton* modeButton;
 LoadControl* loadControl;
+Mode* mode = NULL;
 
-// Game modes
-const uint8_t NumberOfModes = 1;
-Mode* modes[NumberOfModes] = {NULL}; 
-uint8_t currentModeId = NumberOfModes-1;
+enum eModes {
+    Volt,
+    Cap
+};
+eModes nextMode = Volt;
 
-void nextMode()
+void setNextMode()
 {
 #ifdef DEBUG
-    Serial.print(F("nextMode(), "));
-    Serial.print(currentModeId);
-    Serial.print(F(" -> "));
+    int freeb4 = freeMemory();
 #endif
-    modes[currentModeId]->stop();
-    currentModeId = (currentModeId + 1) % NumberOfModes;
+    if (mode) {
+        mode->stop();
+        delete mode;
+        mode = NULL;
+    }
+    switch (nextMode) {
+    case Volt:
+        mode = new VoltMode();
+        nextMode = Cap;
+        break;
+    case Cap:
+        mode = new VoltMode();
+        nextMode = Volt;
+        break;
+    }
+    mode->start();
 #ifdef DEBUG
-    Serial.println(currentModeId);
+    Serial.print(F("setNextMode() free b4/now: "));
+    Serial.print(freeb4);
+    Serial.print(F("/"));
+    Serial.println(freeMemory());
 #endif
-    modes[currentModeId]->start();
 }
 
 void setup()
@@ -52,13 +70,14 @@ void setup()
     pinMode(INDICATOR_LED_PIN, OUTPUT);
     digitalWrite(INDICATOR_LED_PIN, LOW);
 
-    // Create a display mode
-    modes[0] = new VoltMode();
-
     // Let things settle
     delay(500);
 
-    nextMode();
+    // enable watchdog reset at 1/4 sec
+    wdt_enable(WDTO_250MS);
+
+    // engage game mode
+    setNextMode();
 
 #ifdef DEBUG
     Serial.println(F("setup() E"));
@@ -67,17 +86,30 @@ void setup()
 
 void loop()
 {
+    // feed the watchdog
+    wdt_reset();
+
+    // give a time slice to various peripheral functions
     heartbeat->update();
     loadControl->update();
     resetButton->update();
+    modeButton->update();
 
+    // detect button presses and behave appropriately
     if (resetButton->wasPressed()) {
 #ifdef DEBUG
-        Serial.println(F("Reset pressed, swapping "));
+        Serial.println(F("BUTTON: resetting mode"));
 #endif
-        modes[currentModeId]->start();
+        mode->reset();
     }
 
-    modes[currentModeId]->update();
+    if (modeButton->wasPressed()) {
+#ifdef DEBUG
+        Serial.println(F("BUTTON: switching mode"));
+#endif
+        setNextMode();
+    }
+
+    mode->update();
 }
 

@@ -2,13 +2,13 @@
 
 // LED strip parameters
 #define NEOPIXEL_TYPE           (NEO_GRB + NEO_KHZ800)
-#define NUMBER_OF_PIXELS        24
+#define NUMBER_OF_PIXELS        288
 #define NEOPIXEL_PIN            4
 
 // VoltMode parameters
 #define VOLT_MODE_BASE_COLOR    0xFF500A
 // in a range of 0-255:
-#define VOLT_MODE_BRIGHTNESS    16
+#define VOLT_MODE_BRIGHTNESS    4
 // in 100ths of a volt:
 #define VOLT_MODE_VMIN          1000
 // in 100ths of a volt:
