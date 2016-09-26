@@ -28,10 +28,12 @@ void setNextMode()
 #ifdef DEBUG
     int freeb4 = freeMemory();
 #endif
+    bool start = false;
     if (mode) {
         mode->stop();
         delete mode;
         mode = NULL;
+        start = true;
     }
     switch (nextMode) {
     case Volt:
@@ -43,7 +45,9 @@ void setNextMode()
         nextMode = Volt;
         break;
     }
-    mode->start();
+    if (start) {
+        mode->start();
+    }
 #ifdef DEBUG
     Serial.print(F("setNextMode() free b4/now: "));
     Serial.print(freeb4);
@@ -55,6 +59,9 @@ void setNextMode()
 void setup()
 {
     Serial.begin(115200);
+
+    // Use external reference
+    analogReference(EXTERNAL);
 
     // Set up the blinker
     heartbeat = new Heartbeat(HEARTBEAT_LED_PIN);

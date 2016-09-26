@@ -10,10 +10,18 @@ public:
               
     virtual void start();
     virtual void stop();
-    virtual bool update();
+    virtual void modeUpdate();
+    virtual void enterBrownout();
+    virtual void exitBrownout();
 
 private:
     uint16_t _lastPixel;
     uint16_t _timeLeft;
+
+    void saveToEEPROM();
+    void restoreFromEEPROM();
+
+    void writePixels();
+
 };
 

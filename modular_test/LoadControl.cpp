@@ -14,7 +14,7 @@ LoadControl::LoadControl() :
     digitalWrite(PWM_LOAD_PIN, LOW);
 }
 
-bool LoadControl::update()
+void LoadControl::modeUpdate()
 {
     voltageV1 = highVoltageConversion(PEDAL_VOLTAGE_PIN);
     if (voltageV1 >= VPWMSETPOINT - VPWMHYSTERESIS) {

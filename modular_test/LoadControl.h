@@ -7,7 +7,7 @@ class LoadControl : public Mode {
 public:
     LoadControl();
     virtual ~LoadControl() {;}
-    virtual bool update();
+    virtual void modeUpdate();
     virtual void start() {;}
     virtual void stop() {;}
 

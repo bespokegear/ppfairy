@@ -2,7 +2,7 @@
 
 class Mode {
 public:
-    Mode() {;}
+    Mode();
     virtual ~Mode() {;}
 
     // All Modes must also implement a start() function
@@ -14,9 +14,22 @@ public:
     // Optionally over-ride reset
     virtual void reset() { start(); }
 
-    // All Modes must implement an update() function
-    // return true if the mode is running OK, false if it has quit
-    virtual bool update() = 0;
+    // This is what should be called from the main program every cycle
+    // this will call modeUpdate, which is where derived classed should
+    // put their user udate code.  The update() function monitors input
+    // voltage and calls enterBrownout() and exitBrownout()
+    virtual void update();
+    virtual void modeUpdate() = 0;
+
+    // called when vIn drops below BROWNOUT_LOW
+    virtual void enterBrownout() {;}
+    // called when vIn rises above BROWNOUT_HIGH
+    virtual void exitBrownout() {;}
+
+private:
+    bool _brownedOut;
+    void _enterBrownout();
+    void _exitBrownout();
 
 };
 
