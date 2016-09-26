@@ -14,7 +14,7 @@
 #define VOLT_MODE_VMIN              1200
 // in 100ths of a volt:
 #define VOLT_MODE_VMAX              2000
-#define VOLT_MODE_SLOWDOWN          20
+#define VOLT_MODE_SLOWDOWN          10
 #define VOLT_MODE_EEPROM_OFFSET     0
 
 // These are calculated by the preprocessor, so don't use CPU or RAM...  :)
