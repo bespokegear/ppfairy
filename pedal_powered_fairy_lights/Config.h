@@ -41,7 +41,7 @@
 #define VPWMSETPOINT                3500 
 #define VPWMHYSTERESIS              500
 #define BROWNOUT_HIGH               1100
-#define BROWNOUT_LOW                850
+#define BROWNOUT_LOW                950
 #define LOAD_CONTROL_PERIOD_MS      25
 #define VOLTAGE_SAMPLES             20
 
