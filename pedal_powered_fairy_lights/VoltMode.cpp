@@ -1,5 +1,6 @@
 #include "VoltMode.h"
 #include "Util.h"
+#include "PedalVoltage.h"
 #include <Arduino.h>
 #include <EEPROM.h>
 
@@ -40,7 +41,7 @@ void VoltMode::modeUpdate()
 {
     float elapsed = (millis() - _lastUpdate) / 1000.;
     _lastUpdate = millis();
-    uint16_t vIn = highVoltageConversion(PEDAL_VOLTAGE_PIN);
+    uint16_t vIn = PedalVoltage.get();
 #ifdef DEBUGVIN
     Serial.print(F("vIn="));
     Serial.print(vIn);

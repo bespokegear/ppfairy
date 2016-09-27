@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Arduino.h>
+
 // LED strip parameters
 #define NEOPIXEL_TYPE               (NEO_GRB + NEO_KHZ800)
 #define NUMBER_OF_PIXELS            288
@@ -41,4 +43,5 @@
 #define BROWNOUT_HIGH               1100
 #define BROWNOUT_LOW                850
 #define LOAD_CONTROL_PERIOD_MS      25
+#define VOLTAGE_SAMPLES             20
 

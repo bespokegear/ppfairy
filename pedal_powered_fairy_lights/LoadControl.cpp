@@ -1,6 +1,6 @@
 #include "Config.h"
-#include "Util.h"
 #include "LoadControl.h"
+#include "PedalVoltage.h"
 #include <Arduino.h>
 
 LoadControl::LoadControl() :
@@ -21,7 +21,7 @@ void LoadControl::modeUpdate()
         return;
     }
     last = millis();
-    voltageV1 = highVoltageConversion(PEDAL_VOLTAGE_PIN);
+    voltageV1 = PedalVoltage.get();
     if (voltageV1 >= VPWMSETPOINT - VPWMHYSTERESIS) {
         // in mV and vary up to >1000
         // if the value is 1000 then the voltage is at 14V and the FET should be fully ON

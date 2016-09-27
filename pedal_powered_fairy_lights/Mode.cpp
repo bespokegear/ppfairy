@@ -1,6 +1,7 @@
 #include "Mode.h"
 #include "Config.h"
 #include "Util.h"
+#include "PedalVoltage.h"
 #include <Arduino.h>
 
 Mode::Mode() :
@@ -10,8 +11,8 @@ Mode::Mode() :
 
 void Mode::update()
 {
-    float vIn = highVoltageConversion(PEDAL_VOLTAGE_PIN);
-#if (defined(DEBUGVIN) && #defined(DEBUG))
+    float vIn = PedalVoltage.get();
+#if (defined(DEBUGVIN) && defined(DEBUG))
     Serial.print(F("Mode::update, vIn="));
     Serial.println(vIn);
 #endif

@@ -4,6 +4,7 @@
 #include "VoltMode.h"
 #include "LoadControl.h"
 #include "MemoryFree.h"
+#include "PedalVoltage.h"
 #include <Arduino.h>
 #include <avr/wdt.h>
 
@@ -16,6 +17,8 @@ LatchedButton* resetButton;
 LatchedButton* modeButton;
 LoadControl* loadControl;
 Mode* mode = NULL;
+
+unsigned long lastLoop = 0;
 
 enum eModes {
     Volt,
@@ -96,11 +99,23 @@ void loop()
     // feed the watchdog
     wdt_reset();
 
+#ifdef DEBUGTIME
+    Serial.print(F("looptime="));
+    Serial.println(millis() - lastLoop);
+    lastLoop = millis();
+#endif
+
+#ifdef DEBUGMEM
+    Serial.print(F("free="));
+    Serial.println(freeMemory());
+#endif
+
     // give a time slice to various peripheral functions
     heartbeat->update();
     loadControl->update();
     resetButton->update();
     modeButton->update();
+    PedalVoltage.update();
 
     // detect button presses and behave appropriately
     if (resetButton->wasPressed()) {
