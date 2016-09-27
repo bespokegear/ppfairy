@@ -11,9 +11,9 @@
 // in a range of 0-255:
 #define VOLT_MODE_BRIGHTNESS        255
 // in 100ths of a volt:
-#define VOLT_MODE_VMIN              1200
+#define VOLT_MODE_VMIN              1100
 // in 100ths of a volt:
-#define VOLT_MODE_VMAX              3000
+#define VOLT_MODE_VMAX              2500
 // range 0.0= cubic, 1.0=totally linear
 #define VOLT_MODE_LINEARITY         0.5
 #define VOLT_MODE_FASTEST_SEC       5.0
@@ -38,7 +38,7 @@
 #define PWM_LOAD_PIN                5
 #define VPWMSETPOINT                3500 
 #define VPWMHYSTERESIS              500
-#define BROWNOUT_HIGH               1000
+#define BROWNOUT_HIGH               1100
 #define BROWNOUT_LOW                850
 #define LOAD_CONTROL_PERIOD_MS      25
 
