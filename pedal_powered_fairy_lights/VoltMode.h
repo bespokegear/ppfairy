@@ -10,6 +10,7 @@ public:
               
     virtual void start();
     virtual void stop();
+    virtual void reset();
     virtual void modeUpdate();
     virtual void enterBrownout();
     virtual void exitBrownout();

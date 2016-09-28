@@ -37,6 +37,21 @@ void VoltMode::stop()
     DisplayMode::stop();
 }
 
+void VoltMode::reset()
+{
+    start();
+    // If we're browned out when reset is pressed, the reset value would be
+    // over-written when we come out of brown out and the lastPixel value is
+    // restored from EEPROM, so we will save to EEPROM after reset if we are
+    // presently in brownout mode...
+    if (isBrownedOut()) {
+#ifndef NOEEPROM
+        saveToEEPROM(); 
+#endif
+    }
+}
+
+
 void VoltMode::modeUpdate()
 {
     float elapsed = (millis() - _lastUpdate) / 1000.;
