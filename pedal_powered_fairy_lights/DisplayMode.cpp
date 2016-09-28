@@ -1,10 +1,8 @@
 #include "DisplayMode.h"
 
-DisplayMode::DisplayMode() :
-    _pixels(NUMBER_OF_PIXELS, NEOPIXEL_PIN, NEOPIXEL_TYPE)
+DisplayMode::DisplayMode()
 {
-    _pixels.begin();
-    _pixels.show();  // display unlit pixels (clears previous display)
+    resetPixels();
 }
 
 DisplayMode::~DisplayMode()
@@ -24,7 +22,7 @@ void DisplayMode::stop()
 
 void DisplayMode::resetPixels()
 {
-    _pixels.clear();
-    _pixels.show();
+    LEDs.clear();
+    LEDs.show();
 }
 

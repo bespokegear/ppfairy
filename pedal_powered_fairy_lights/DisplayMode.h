@@ -2,6 +2,7 @@
 
 #include "Config.h"
 #include "Mode.h"
+#include "LEDs.h"
 #include <stdint.h>
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
@@ -17,8 +18,6 @@ public:
     virtual void stop();
 
 protected:
-    Adafruit_NeoPixel _pixels;
-
     void resetPixels();
 
 };

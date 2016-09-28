@@ -5,6 +5,7 @@
 #include "LoadControl.h"
 #include "MemoryFree.h"
 #include "PedalVoltage.h"
+#include "LEDs.h"
 #include <Arduino.h>
 #include <avr/wdt.h>
 
@@ -79,6 +80,11 @@ void setup()
     // Ensure load is disconnected at start, indicator off
     pinMode(INDICATOR_LED_PIN, OUTPUT);
     digitalWrite(INDICATOR_LED_PIN, LOW);
+
+    // Configure global Adafruit_Neopixel object (from LEDs.h)
+    LEDs.begin();
+    LEDs.clear();
+    LEDs.show(); // Initialize all pixels to 'off'
 
     // Let things settle
     delay(500);

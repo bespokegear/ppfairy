@@ -87,7 +87,7 @@ void VoltMode::modeUpdate()
     Serial.print(F(", lp="));
     Serial.println(_lastPixel);
 #endif
-    if ((uint16_t)_lastPixel > prevInt && (uint16_t)_lastPixel <= _pixels.numPixels()) {
+    if ((uint16_t)_lastPixel > prevInt && (uint16_t)_lastPixel <= LEDs.numPixels()) {
 #ifdef DEBUG
         Serial.print(F("+pixel, lp="));
         Serial.println(_lastPixel);
@@ -103,8 +103,8 @@ void VoltMode::enterBrownout()
 #ifdef DEBUG
     Serial.println(F("VoltMode::enterBrownout"));
 #endif
-    _pixels.clear();
-    _pixels.show();
+    LEDs.clear();
+    LEDs.show();
     // saves _lastPixel;
 #ifndef NOEEPROM
     saveToEEPROM(); 
@@ -157,12 +157,12 @@ void VoltMode::writePixels()
 #ifdef DEBUG
     Serial.println(F("VoltMode::writePixels"));
 #endif
-    for (uint16_t i=0; i<_pixels.numPixels(); i++) {
+    for (uint16_t i=0; i<LEDs.numPixels(); i++) {
         if (i < _lastPixel-1) {
-            _pixels.setPixelColor(i, VOLT_MODE_COLOR_ON);
+            LEDs.setPixelColor(i, VOLT_MODE_COLOR_ON);
         } else {
-            _pixels.setPixelColor(i, VOLT_MODE_COLOR_OFF);
+            LEDs.setPixelColor(i, VOLT_MODE_COLOR_OFF);
         }
     }
-    _pixels.show();
+    LEDs.show();
 }

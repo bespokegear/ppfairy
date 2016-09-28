@@ -2,6 +2,21 @@
 
 #include <Arduino.h>
 
+// General config
+#define PEDAL_VOLTAGE_PIN           A0
+#define CAP_VOLTAGE_PIN             A1
+#define RESET_BUTTON_PIN            2
+#define MODE_BUTTON_PIN             3
+#define HEARTBEAT_LED_PIN           13
+#define INDICATOR_LED_PIN           9
+#define PWM_LOAD_PIN                5
+#define VPWMSETPOINT                3500 
+#define VPWMHYSTERESIS              500
+#define BROWNOUT_HIGH               1300
+#define BROWNOUT_LOW                1200
+#define LOAD_CONTROL_PERIOD_MS      25
+#define VOLTAGE_SAMPLES             20
+
 // LED strip parameters
 #define NEOPIXEL_TYPE               (NEO_GRB + NEO_KHZ800)
 #define NUMBER_OF_PIXELS            288
@@ -31,17 +46,4 @@
 #define VOLT_MODE_COLOR_OFF_B       (((VOLT_MODE_OFF_BASE_COLOR%256)*VOLT_MODE_BRIGHTNESS)/256)
 #define VOLT_MODE_COLOR_OFF         ((VOLT_MODE_COLOR_OFF_R<<16)+(VOLT_MODE_COLOR_OFF_G<<8)+(VOLT_MODE_COLOR_OFF_B))
 
-// General config
-#define PEDAL_VOLTAGE_PIN           A0
-#define RESET_BUTTON_PIN            2
-#define MODE_BUTTON_PIN             3
-#define HEARTBEAT_LED_PIN           13
-#define INDICATOR_LED_PIN           9
-#define PWM_LOAD_PIN                5
-#define VPWMSETPOINT                3500 
-#define VPWMHYSTERESIS              500
-#define BROWNOUT_HIGH               1300
-#define BROWNOUT_LOW                1200
-#define LOAD_CONTROL_PERIOD_MS      25
-#define VOLTAGE_SAMPLES             20
 
