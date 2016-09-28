@@ -6,7 +6,9 @@
 class SlowFill : public Flare {
 public:
     SlowFill(uint32_t color, float duration);
+    virtual ~SlowFill();
     void update();
+    bool finished();
 
 private:
     uint32_t _color;
