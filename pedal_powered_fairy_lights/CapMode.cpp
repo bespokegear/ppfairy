@@ -2,7 +2,7 @@
 #include "Util.h"
 #include "CapVoltage.h"
 #include "LEDs.h"
-#include "SlowFill.h"
+#include "ColorFill.h"
 #include <Arduino.h>
 
 CapMode::CapMode() :
@@ -64,6 +64,7 @@ void CapMode::startFlare()
     if (_flare) {
         delete _flare;
     }
-    _flare = new SlowFill(0x2224455, 5);
+    _flare = new ColorFill();
     _inFlare = true;
 }
+
