@@ -45,9 +45,9 @@ void Sparkle::display()
     }
 
     LEDs.setPixelColor(i, r, g, b);
-    r /= 2;
-    g /= 2;
-    b /= 2;
+    r /= 3;
+    g /= 3;
+    b /= 3;
     if (i > 0) LEDs.setPixelColor(i-1, r, g, b);
     if (i < NUMBER_OF_LEDS-1) LEDs.setPixelColor(i+1, r, g, b);
 
