@@ -38,11 +38,6 @@ void ColorFill::update()
     display();
 }
 
-bool ColorFill::finished()
-{
-    return _percent >= 1;
-}
-
 void ColorFill::reset()
 {
     _color =  random(0,255) << 16;
@@ -54,8 +49,8 @@ void ColorFill::reset()
 
 void ColorFill::display()
 {
-    for (uint16_t i=0; i<=NUMBER_OF_PIXELS*_percent; i++) {
-        if (i<=NUMBER_OF_PIXELS*_percent) {
+    for (uint16_t i=0; i<=NUMBER_OF_LEDS*_percent; i++) {
+        if (i<=NUMBER_OF_LEDS*_percent) {
             LEDs.setPixelColor(i, _color);
         } else {
             LEDs.setPixelColor(i, 0x000000);

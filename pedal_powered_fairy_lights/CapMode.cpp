@@ -3,6 +3,7 @@
 #include "CapVoltage.h"
 #include "LEDs.h"
 #include "ColorFill.h"
+#include "Rainbow.h"
 #include <Arduino.h>
 
 CapMode::CapMode() :
@@ -64,7 +65,8 @@ void CapMode::startFlare()
     if (_flare) {
         delete _flare;
     }
-    _flare = new ColorFill();
+    // _flare = new ColorFill();
+    _flare = new Rainbow();
     _inFlare = true;
 }
 

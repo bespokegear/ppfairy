@@ -6,6 +6,5 @@ public:
     // Should execute quickly, update the LED strip and return
     virtual ~Flare() {;}
     virtual void update() = 0;
-    virtual bool finished() { return false; }
 
 };

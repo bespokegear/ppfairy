@@ -11,7 +11,7 @@
 
 class DisplayMode : public Mode {
 public:
-    // Note: takes params from NEOPIXEL_TYPE, NUMBER_OF_PIXELS, NEOPIXEL_PIN #defines
+    // Note: takes params from NEOPIXEL_TYPE, NUMBER_OF_LEDS, LED_DATA_PIN #defines
     DisplayMode();
     virtual ~DisplayMode();
     virtual void start();

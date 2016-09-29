@@ -20,18 +20,21 @@
 #define BROWNOUT_LOW                1200
 #define LOAD_CONTROL_PERIOD_MS      25
 #define VOLTAGE_SAMPLES             20
-// in a range of 0-255, 255 being brightest
 
 // LED strip parameters
+#define LED_DATA_PIN                4
+// This is for initialising the Adafruit_NeoPixel library
+// and will depend on the LED type
 #define NEOPIXEL_TYPE               (NEO_GRB + NEO_KHZ800)
-#define NUMBER_OF_PIXELS            288
-#define NEOPIXEL_PIN                4
-// This is ised to compensate for the time it takes to write to 
+#define NUMBER_OF_LEDS              288
+// Brightness is a range of 0-255, 255 being brightest
+// It will set the brightness in all display modes
+#define LED_BRIGHTNESS              255
+// This is used to compensate for the time it takes to write to 
 // the LEDs - without it, longer strips would take longer to 
 // fill based on the VOLT_MODE_FASTEST_SEC setting.  Determined
 // by trial and error
 #define LED_SPEED_FACTOR            180
-#define LED_BRIGHTNESS              255
 
 // VoltMode parameters
 #define VOLT_MODE_COLOR_ON          0xFF500AUL
@@ -51,5 +54,5 @@
 
 // Params for flare modes
 #define FLARE_COLOR_FILL_DURATION   0.2
-#define RAINBOW_DELAY_MS            10
+#define RAINBOW_DELAY_MS            5
 

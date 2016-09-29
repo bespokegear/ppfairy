@@ -3,17 +3,17 @@
 #include "Flare.h"
 #include <stdint.h>
 
-class ColorFill : public Flare {
+class Rainbow : public Flare {
 public:
-    ColorFill();
-    virtual ~ColorFill();
+    Rainbow();
+    virtual ~Rainbow();
     void update();
 
 private:
-    uint32_t _color;
-    float _percent;
     unsigned long _lastUpdate;
+    uint16_t _pos;
 
-    void reset();
     void display();
+    uint32_t Wheel(uint8_t WheelPos);
+
 };
