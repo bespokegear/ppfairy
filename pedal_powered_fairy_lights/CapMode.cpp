@@ -1,6 +1,8 @@
 #include "CapMode.h"
 #include "Util.h"
 #include "CapVoltage.h"
+#include "LEDs.h"
+#include "SlowFill.h"
 #include <Arduino.h>
 
 CapMode::CapMode() :
@@ -10,6 +12,7 @@ CapMode::CapMode() :
     Serial.print(F("CapMode::CapMode(), capPin="));
     Serial.println(CapVoltage.getPin());
 #endif
+    _flare = NULL;
 }
 
 void CapMode::reset()
@@ -18,9 +21,23 @@ void CapMode::reset()
     Serial.println(F("CapMode::reset"));
 #endif
     _inFlare = false;
+    if (_flare) {
+        delete _flare;
+        _flare = NULL;
+    }
     start();
 }
 
+void CapMode::start() 
+{
+    LEDs.clear();
+    LEDs.show();
+}
+
+void CapMode::stop() 
+{
+    reset();
+}
 
 void CapMode::modeUpdate()
 {
@@ -34,6 +51,9 @@ void CapMode::modeUpdate()
     } else if (_inFlare && vIn < CAP_MODE_LOW_VOLTS) {
         reset();
     }
+    if (_flare && _inFlare) {
+        _flare->update();
+    }
 }
 
 void CapMode::startFlare()
@@ -41,5 +61,9 @@ void CapMode::startFlare()
 #ifdef DEBUG
     Serial.println(F("CapMode::startFlare"));
 #endif
+    if (_flare) {
+        delete _flare;
+    }
+    _flare = new SlowFill(0x2224455, 5);
     _inFlare = true;
 }

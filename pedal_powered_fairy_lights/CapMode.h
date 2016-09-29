@@ -2,19 +2,21 @@
 
 #include "Config.h"
 #include "Mode.h"
+#include "Flare.h"
 
 class CapMode : public Mode {
 public:
     CapMode();
               
-    virtual void start() {;}
-    virtual void stop() {;}
+    virtual void start();
+    virtual void stop();
     virtual void reset();
     virtual void modeUpdate();
     virtual void startFlare();
 
 private:
     bool _inFlare;
+    Flare* _flare;
 
 };
 
