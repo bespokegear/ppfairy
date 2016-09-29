@@ -55,4 +55,5 @@
 // Params for flare modes
 #define FLARE_COLOR_FILL_DURATION   0.2
 #define RAINBOW_DELAY_MS            5
+#define SPARKLE_DELAY_MS            10
 
