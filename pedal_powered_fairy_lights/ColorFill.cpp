@@ -45,17 +45,9 @@ bool ColorFill::finished()
 
 void ColorFill::reset()
 {
-#define VOLT_MODE_COLOR_ON_R        (((VOLT_MODE_ON_BASE_COLOR >> 16)*VOLT_MODE_BRIGHTNESS)/255)
-#define VOLT_MODE_COLOR_ON_G        ((((VOLT_MODE_ON_BASE_COLOR >> 8)%255)*VOLT_MODE_BRIGHTNESS)/255)
-#define VOLT_MODE_COLOR_ON_B        (((VOLT_MODE_ON_BASE_COLOR%255)*VOLT_MODE_BRIGHTNESS)/255)
-#define VOLT_MODE_COLOR_ON          ((VOLT_MODE_COLOR_ON_R<<16)+(VOLT_MODE_COLOR_ON_G<<8)+(VOLT_MODE_COLOR_ON_B))
-#define VOLT_MODE_COLOR_OFF_R       (((VOLT_MODE_OFF_BASE_COLOR >> 16)*VOLT_MODE_BRIGHTNESS)/255)
-#define VOLT_MODE_COLOR_OFF_G       ((((VOLT_MODE_OFF_BASE_COLOR >> 8)%255)*VOLT_MODE_BRIGHTNESS)/255)
-#define VOLT_MODE_COLOR_OFF_B       (((VOLT_MODE_OFF_BASE_COLOR%255)*VOLT_MODE_BRIGHTNESS)/255)
-#define VOLT_MODE_COLOR_OFF         ((VOLT_MODE_COLOR_OFF_R<<16)+(VOLT_MODE_COLOR_OFF_G<<8)+(VOLT_MODE_COLOR_OFF_B))
-    _color = (((random(0,255)*CAP_MODE_BRIGHTNESS) / 255) << 16);
-    _color += (((random(0,255)*CAP_MODE_BRIGHTNESS) / 255) << 8);
-    _color += ((random(0,255)*CAP_MODE_BRIGHTNESS) / 255);
+    _color =  random(0,255) << 16;
+    _color += random(0,255) << 8;
+    _color += random(0,255);
     _percent = 0.;
     display();
 }

@@ -89,6 +89,7 @@ void setup()
 
     // Configure global Adafruit_Neopixel object (from LEDs.h)
     LEDs.begin();
+    LEDs.setBrightness(LED_BRIGHTNESS);
     LEDs.clear();
     LEDs.show(); // Initialize all pixels to 'off'
 

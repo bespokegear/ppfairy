@@ -20,6 +20,7 @@
 #define BROWNOUT_LOW                1200
 #define LOAD_CONTROL_PERIOD_MS      25
 #define VOLTAGE_SAMPLES             20
+// in a range of 0-255, 255 being brightest
 
 // LED strip parameters
 #define NEOPIXEL_TYPE               (NEO_GRB + NEO_KHZ800)
@@ -30,12 +31,11 @@
 // fill based on the VOLT_MODE_FASTEST_SEC setting.  Determined
 // by trial and error
 #define LED_SPEED_FACTOR            180
+#define LED_BRIGHTNESS              255
 
 // VoltMode parameters
-#define VOLT_MODE_ON_BASE_COLOR     0xFF500AUL
-#define VOLT_MODE_OFF_BASE_COLOR    0x000000UL
-// in a range of 0-255:
-#define VOLT_MODE_BRIGHTNESS        255
+#define VOLT_MODE_COLOR_ON          0xFF500AUL
+#define VOLT_MODE_COLOR_OFF         0x000000UL
 // in 100ths of a volt:
 #define VOLT_MODE_VMIN              1300
 // in 100ths of a volt:
@@ -46,20 +46,10 @@
 #define VOLT_MODE_EEPROM_OFFSET     0
 
 // CapMode parameters
-#define CAP_MODE_LOW_VOLTS         1200
-#define CAP_MODE_HIGH_VOLTS        1320
-#define CAP_MODE_BRIGHTNESS        VOLT_MODE_BRIGHTNESS
+#define CAP_MODE_LOW_VOLTS          1200
+#define CAP_MODE_HIGH_VOLTS         1320
 
 // Params for flare modes
-#define FLARE_COLOR_FILL_DURATION  0.2
-
-// These are calculated by the preprocessor, so don't use CPU or RAM...  :)
-#define VOLT_MODE_COLOR_ON_R        (((VOLT_MODE_ON_BASE_COLOR >> 16)*VOLT_MODE_BRIGHTNESS)/256)
-#define VOLT_MODE_COLOR_ON_G        ((((VOLT_MODE_ON_BASE_COLOR >> 8)%256)*VOLT_MODE_BRIGHTNESS)/256)
-#define VOLT_MODE_COLOR_ON_B        (((VOLT_MODE_ON_BASE_COLOR%256)*VOLT_MODE_BRIGHTNESS)/256)
-#define VOLT_MODE_COLOR_ON          ((VOLT_MODE_COLOR_ON_R<<16)+(VOLT_MODE_COLOR_ON_G<<8)+(VOLT_MODE_COLOR_ON_B))
-#define VOLT_MODE_COLOR_OFF_R       (((VOLT_MODE_OFF_BASE_COLOR >> 16)*VOLT_MODE_BRIGHTNESS)/256)
-#define VOLT_MODE_COLOR_OFF_G       ((((VOLT_MODE_OFF_BASE_COLOR >> 8)%256)*VOLT_MODE_BRIGHTNESS)/256)
-#define VOLT_MODE_COLOR_OFF_B       (((VOLT_MODE_OFF_BASE_COLOR%256)*VOLT_MODE_BRIGHTNESS)/256)
-#define VOLT_MODE_COLOR_OFF         ((VOLT_MODE_COLOR_OFF_R<<16)+(VOLT_MODE_COLOR_OFF_G<<8)+(VOLT_MODE_COLOR_OFF_B))
+#define FLARE_COLOR_FILL_DURATION   0.2
+#define RAINBOW_DELAY_MS            10
 
