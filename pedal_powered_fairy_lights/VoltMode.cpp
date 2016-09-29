@@ -96,8 +96,6 @@ void VoltMode::modeUpdate()
 #endif
         writePixels();
     }
-    
-    return true;
 }
 
 void VoltMode::enterBrownout()
