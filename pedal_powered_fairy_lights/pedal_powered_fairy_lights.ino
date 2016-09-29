@@ -1,15 +1,21 @@
+// Even though these libraries are only used in other sources, we
+// #include them here so the Ardino IDE knows to compile and link 
+// them...
+#include <EEPROM.h>
+#include <Adafruit_NeoPixel.h>
 #include "Config.h"
 #include "Heartbeat.h"
 #include "DebouncedButton.h"
 #include "VoltMode.h"
 #include "CapMode.h"
 #include "LoadControl.h"
-#include "MemoryFree.h"
+#include "Util.h"
 #include "PedalVoltage.h"
 #include "CapVoltage.h"
 #include "LEDs.h"
 #include <Arduino.h>
 #include <avr/wdt.h>
+
 
 // See Config.h for pin and other configuration
 
