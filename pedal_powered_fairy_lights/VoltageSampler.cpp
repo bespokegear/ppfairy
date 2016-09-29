@@ -2,8 +2,10 @@
 #include "Util.h"
 #include <string.h>
 
-VoltageSampler::VoltageSampler(const uint8_t pin) :
+VoltageSampler::VoltageSampler(const uint8_t pin, uint16_t r1KOhm, uint16_t r2KOhm) :
     _pin(pin),
+    _r1KOhm(r1KOhm),
+    _r2KOhm(r2KOhm),
     _count(0),
     _idx(0),
     _lastAvg(0),
@@ -13,7 +15,7 @@ VoltageSampler::VoltageSampler(const uint8_t pin) :
 }
 
 void VoltageSampler::update() {
-    _samples[_idx] = highVoltageConversion(_pin);
+    _samples[_idx] = voltageConversion(_pin, _r1KOhm, _r2KOhm);
     _count = _count >= VOLTAGE_SAMPLES ? VOLTAGE_SAMPLES : _count+1;
     _idx = (_idx + 1) % VOLTAGE_SAMPLES;
     _updated = true;

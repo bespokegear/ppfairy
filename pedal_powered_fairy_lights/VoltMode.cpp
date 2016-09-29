@@ -77,7 +77,8 @@ void VoltMode::modeUpdate()
     float linear = (float)(vIn-VOLT_MODE_VMIN) / (VOLT_MODE_VMAX-VOLT_MODE_VMIN);
     float nonLinear = calculateLinearity(linear, VOLT_MODE_LINEARITY);
     if (_lastPixel + nonLinear < NUMBER_OF_PIXELS+1) {
-        _lastPixel += nonLinear * (NUMBER_OF_PIXELS*elapsed/VOLT_MODE_FASTEST_SEC);
+        // The -(float)NUMBER_OF_PIXELS/LED_SPEED_FACTOR) is to compensate for time taken sending data on longer strings
+        _lastPixel += nonLinear * (NUMBER_OF_PIXELS*elapsed/(VOLT_MODE_FASTEST_SEC-(float)NUMBER_OF_PIXELS/LED_SPEED_FACTOR));
     }
     // have we gone up past another whole number?
 #ifdef DEBUGVIN
