@@ -57,6 +57,11 @@ void VoltMode::modeUpdate()
 {
     float elapsed = (millis() - _lastUpdate) / 1000.;
     _lastUpdate = millis();
+    // When we're browned out, keep writing those off pixels
+    if (isBrownedOut()) {
+        LEDs.clear();
+        LEDs.show();
+    }
     uint16_t vIn = PedalVoltage.get();
 #ifdef DEBUGVIN
     Serial.print(F("vIn="));
