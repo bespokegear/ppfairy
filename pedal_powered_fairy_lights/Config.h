@@ -29,13 +29,13 @@
 // the LEDs - without it, longer strips would take longer to 
 // fill based on the VOLT_MODE_FASTEST_SEC setting.  Determined
 // by trial and error
-#define LED_SPEED_FACTOR            130
+#define LED_SPEED_FACTOR            180
 
 // VoltMode parameters
 #define VOLT_MODE_ON_BASE_COLOR     0xFF500AUL
 #define VOLT_MODE_OFF_BASE_COLOR    0x000000UL
 // in a range of 0-255:
-#define VOLT_MODE_BRIGHTNESS        8
+#define VOLT_MODE_BRIGHTNESS        255
 // in 100ths of a volt:
 #define VOLT_MODE_VMIN              1300
 // in 100ths of a volt:
@@ -46,8 +46,8 @@
 #define VOLT_MODE_EEPROM_OFFSET     0
 
 // CapMode parameters
-#define CAP_MODE_LOW_VOLTS         BROWNOUT_LOW
-#define CAP_MODE_HIGH_VOLTS        (CAP_MODE_LOW_VOLTS + 300)
+#define CAP_MODE_LOW_VOLTS         1200
+#define CAP_MODE_HIGH_VOLTS        1320
 #define CAP_MODE_BRIGHTNESS        VOLT_MODE_BRIGHTNESS
 
 // Params for flare modes
