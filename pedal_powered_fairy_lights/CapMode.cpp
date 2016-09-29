@@ -66,7 +66,14 @@ void CapMode::startFlare()
         delete _flare;
     }
     // _flare = new ColorFill();
-    _flare = new Rainbow();
+    switch (random(2)) {
+    case 1:
+        _flare = new Rainbow();
+        break;
+    default:
+        _flare = new ColorFill();
+        break;
+    }
     _inFlare = true;
 }
 
