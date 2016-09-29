@@ -11,6 +11,8 @@ public:
     void update();
     uint16_t get();
 
+    uint8_t getPin() { return _pin; }
+
 private:
     uint8_t _pin;
     uint8_t _count;

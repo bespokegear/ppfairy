@@ -15,9 +15,7 @@ DebouncedButton::DebouncedButton(uint8_t pin, bool pullup) :
 
 void DebouncedButton::update()
 {
-    bool on = digitalRead(_pin);
-    if (_pullup)
-        on = ! on;
+    bool on = valueNow();
 
     if (on) {
         if (millis() - _last >= DEBOUNCETIME && _count < DEBOUNCECOUNT) {
@@ -33,5 +31,25 @@ void DebouncedButton::update()
 bool DebouncedButton::isPressed()
 {
     return _count >= DEBOUNCECOUNT;
+}
+
+bool DebouncedButton::valueNow()
+{
+    if (_pullup) {
+        return !digitalRead(_pin);
+    } else {
+        return digitalRead(_pin);
+    }
+}
+
+void DebouncedButton::set(bool on)
+{
+    if (on) {
+        _count = DEBOUNCECOUNT;
+        _last = 0;
+    } else {
+        _count = 0;
+        _last = 0;
+    }
 }
 

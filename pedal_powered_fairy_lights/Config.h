@@ -36,6 +36,10 @@
 #define VOLT_MODE_FASTEST_SEC       5.0
 #define VOLT_MODE_EEPROM_OFFSET     0
 
+// CapMode parameters
+#define CAP_MODE_LOW_VOLTS         BROWNOUT_LOW
+#define CAP_MODE_HIGH_VOLTS        (CAP_MODE_LOW_VOLTS + 200)
+
 // These are calculated by the preprocessor, so don't use CPU or RAM...  :)
 #define VOLT_MODE_COLOR_ON_R        (((VOLT_MODE_ON_BASE_COLOR >> 16)*VOLT_MODE_BRIGHTNESS)/256)
 #define VOLT_MODE_COLOR_ON_G        ((((VOLT_MODE_ON_BASE_COLOR >> 8)%256)*VOLT_MODE_BRIGHTNESS)/256)

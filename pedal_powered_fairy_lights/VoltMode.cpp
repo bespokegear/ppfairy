@@ -8,7 +8,8 @@ VoltMode::VoltMode() :
     DisplayMode()
 {
 #ifdef DEBUG
-    Serial.println(F("VoltMode::VoltMode()"));
+    Serial.print(F("VoltMode::VoltMode(), voltPin="));
+    Serial.println(PedalVoltage.getPin());
 #endif
     // get _lastPixel from EEPROM
     restoreFromEEPROM();

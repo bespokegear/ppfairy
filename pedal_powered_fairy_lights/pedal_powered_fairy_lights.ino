@@ -1,10 +1,12 @@
 #include "Config.h"
 #include "Heartbeat.h"
-#include "LatchedButton.h"
+#include "DebouncedButton.h"
 #include "VoltMode.h"
+#include "CapMode.h"
 #include "LoadControl.h"
 #include "MemoryFree.h"
 #include "PedalVoltage.h"
+#include "CapVoltage.h"
 #include "LEDs.h"
 #include <Arduino.h>
 #include <avr/wdt.h>
@@ -14,8 +16,8 @@
 // Global variables
 
 Heartbeat* heartbeat;
-LatchedButton* resetButton;
-LatchedButton* modeButton;
+DebouncedButton* resetButton;
+DebouncedButton* modeButton;
 LoadControl* loadControl;
 Mode* mode = NULL;
 
@@ -42,11 +44,9 @@ void setNextMode()
     switch (nextMode) {
     case Volt:
         mode = new VoltMode();
-        nextMode = Cap;
         break;
     case Cap:
-        mode = new VoltMode();
-        nextMode = Volt;
+        mode = new CapMode();
         break;
     }
     if (start) {
@@ -74,8 +74,8 @@ void setup()
     loadControl = new LoadControl();
 
     // Construct input buttons (sets pin modes in constructor)
-    resetButton = new LatchedButton(RESET_BUTTON_PIN);
-    modeButton = new LatchedButton(MODE_BUTTON_PIN);
+    resetButton = new DebouncedButton(RESET_BUTTON_PIN);
+    modeButton = new DebouncedButton(MODE_BUTTON_PIN);
 
     // Ensure load is disconnected at start, indicator off
     pinMode(INDICATOR_LED_PIN, OUTPUT);
@@ -85,6 +85,16 @@ void setup()
     LEDs.begin();
     LEDs.clear();
     LEDs.show(); // Initialize all pixels to 'off'
+
+    // short delay to prevent unsetting of reset button
+    delay(50);
+    bool isCapMode = modeButton->valueNow();
+    modeButton->set(isCapMode);
+    if (isCapMode) {
+        nextMode = Cap;
+    } else {
+        nextMode = Volt;
+    }
 
     // Let things settle
     delay(500);
@@ -122,19 +132,27 @@ void loop()
     resetButton->update();
     modeButton->update();
     PedalVoltage.update();
+    CapVoltage.update();
 
     // detect button presses and behave appropriately
-    if (resetButton->wasPressed()) {
+    if (resetButton->isPressed()) {
 #ifdef DEBUG
         Serial.println(F("BUTTON: resetting mode"));
 #endif
         mode->reset();
     }
 
-    if (modeButton->wasPressed()) {
+    if (modeButton->isPressed() && nextMode != Cap) {
 #ifdef DEBUG
-        Serial.println(F("BUTTON: switching mode"));
+        Serial.println(F("BUTTON: switching to CapMode"));
 #endif
+        nextMode = Cap;
+        setNextMode();
+    } else if (!modeButton->isPressed() && nextMode != Volt) {
+#ifdef DEBUG
+        Serial.println(F("BUTTON: switching to VoltMode"));
+#endif
+        nextMode = Volt;
         setNextMode();
     }
 
