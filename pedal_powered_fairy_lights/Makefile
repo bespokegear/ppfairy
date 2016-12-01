@@ -1,5 +1,6 @@
 # Add -DDEBUG to have the program write debugging to serial
-#CPPFLAGS += -DDEBUG
+CPPFLAGS += -DDEBUGFLARE
+CPPFLAGS += -DDEBUG
 #CPPFLAGS += -DDEBUGVIN
 #CPPFLAGS += -DDEBUGLOAD
 #CPPFLAGS += -DDEBUGTIME

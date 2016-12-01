@@ -53,6 +53,9 @@
 #define CAP_MODE_HIGH_VOLTS         1320
 
 // Params for flare modes
+#define FLARE_TYPE_COUNT            4
+// comment this out for randomized flare selection
+#define SEQUENTIAL_FLARES           1
 #define FLARE_COLOR_FILL_DURATION   0.2
 #define RAINBOW_DELAY_MS            5
 #define SPARKLE_DELAY_MS            10

@@ -5,6 +5,7 @@
 #include "ColorFill.h"
 #include "Sparkle.h"
 #include "Rainbow.h"
+#include "Spurt.h"
 #include <Arduino.h>
 
 CapMode::CapMode() :
@@ -15,6 +16,9 @@ CapMode::CapMode() :
     Serial.println(CapVoltage.getPin());
 #endif
     _flare = NULL;
+#ifdef SEQUENTIAL_FLARES
+    _last_flare_id = 0;
+#endif
 }
 
 void CapMode::reset()
@@ -66,12 +70,21 @@ void CapMode::startFlare()
     if (_flare) {
         delete _flare;
     }
-    switch (random(3)) {
-    case 1:
+#ifdef SEQUENTIAL_FLARES
+    uint8_t flare_id = (_last_flare_id+1) % FLARE_TYPE_COUNT;
+    _last_flare_id = flare_id;
+#else
+    uint8_t flare_id = random(FLARE_TYPE_COUNT);
+#endif
+    switch (flare_id) {
+    case 0:
         _flare = new Sparkle();
         break;
-    case 2:
+    case 1:
         _flare = new Rainbow();
+        break;
+    case 2:
+        _flare = new Spurt();
         break;
     default:
         _flare = new ColorFill();
