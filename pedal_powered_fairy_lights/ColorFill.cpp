@@ -44,6 +44,10 @@ void ColorFill::reset()
     _color += random(0,255) << 8;
     _color += random(0,255);
     _percent = 0.;
+#ifdef DEBUGFLARE
+    Serial.print(F("ColorFill new color: 0x"));
+    Serial.println(_color, HEX);
+#endif
     display();
 }
 

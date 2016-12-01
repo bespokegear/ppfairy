@@ -4,12 +4,6 @@
 #include "Flare.h"
 #include "Config.h"
 
-#define SPURT_COUNT         4
-// Higher means less frequent
-#define SPURT_PROBABILITY   300
-#define SPURT_VEL_MIN       3
-#define SPURT_VEL_MAX       100
-
 class SpurtBlob {
 public:
     SpurtBlob();
@@ -28,8 +22,9 @@ public:
     Spurt();
     virtual ~Spurt();
     void update();
+    void fire(uint8_t slot);
 
 private:
-    SpurtBlob _spurts[SPURT_COUNT];
+    SpurtBlob _spurts[FLARE_SPURT_COUNT];
 };
 

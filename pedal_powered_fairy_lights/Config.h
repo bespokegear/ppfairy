@@ -26,10 +26,11 @@
 // This is for initialising the Adafruit_NeoPixel library
 // and will depend on the LED type
 #define NEOPIXEL_TYPE               (NEO_GRB + NEO_KHZ800)
-#define NUMBER_OF_LEDS              288
+//#define NEOPIXEL_TYPE               (NEO_BRG + NEO_KHZ800)
+#define NUMBER_OF_LEDS              60
 // Brightness is a range of 0-255, 255 being brightest
 // It will set the brightness in all display modes
-#define LED_BRIGHTNESS              255
+#define LED_BRIGHTNESS              128
 // This is used to compensate for the time it takes to write to 
 // the LEDs - without it, longer strips would take longer to 
 // fill based on the VOLT_MODE_FASTEST_SEC setting.  Determined
@@ -55,8 +56,13 @@
 // Params for flare modes
 #define FLARE_TYPE_COUNT            4
 // comment this out for randomized flare selection
-#define SEQUENTIAL_FLARES           1
-#define FLARE_COLOR_FILL_DURATION   0.2
-#define RAINBOW_DELAY_MS            5
-#define SPARKLE_DELAY_MS            10
+#define FLARE_SEQUENTIAL            1
+
+// Flare mode specific params
+#define FLARE_COLOR_FILL_DURATION   1
+#define FLARE_RAINBOW_DELAY_MS      5
+#define FLARE_SPURT_COUNT           (NUMBER_OF_LEDS/20)
+#define FLARE_SPURT_DELAY           300
+#define FLARE_SPURT_VEL_MIN         (NUMBER_OF_LEDS/30)
+#define FLARE_SPURT_VEL_MAX         NUMBER_OF_LEDS
 

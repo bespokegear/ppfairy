@@ -16,8 +16,8 @@ CapMode::CapMode() :
     Serial.println(CapVoltage.getPin());
 #endif
     _flare = NULL;
-#ifdef SEQUENTIAL_FLARES
-    _last_flare_id = 0;
+#ifdef FLARE_SEQUENTIAL
+    _last_flare_id = 1;
 #endif
 }
 
@@ -70,7 +70,7 @@ void CapMode::startFlare()
     if (_flare) {
         delete _flare;
     }
-#ifdef SEQUENTIAL_FLARES
+#ifdef FLARE_SEQUENTIAL
     uint8_t flare_id = (_last_flare_id+1) % FLARE_TYPE_COUNT;
     _last_flare_id = flare_id;
 #else
@@ -78,15 +78,27 @@ void CapMode::startFlare()
 #endif
     switch (flare_id) {
     case 0:
-        _flare = new Sparkle();
-        break;
-    case 1:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: Rainbow"));
+#endif
         _flare = new Rainbow();
         break;
+    case 1:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: Sparkle"));
+#endif
+        _flare = new Sparkle();
+        break;
     case 2:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: Spurt"));
+#endif
         _flare = new Spurt();
         break;
     default:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: ColorFill"));
+#endif
         _flare = new ColorFill();
         break;
     }

@@ -39,6 +39,7 @@ void SpurtBlob::draw()
 
 Spurt::Spurt()
 {
+    fire(0);
 }
 
 Spurt::~Spurt()
@@ -67,7 +68,7 @@ void Spurt::update()
     // update active spurts, and determine active count
     uint8_t count = 0;
     int8_t inactiveIdx = 0;
-    for (uint8_t i=0; i<SPURT_COUNT; i++) {
+    for (uint8_t i=0; i<FLARE_SPURT_COUNT; i++) {
         if (_spurts[i].active()) {
             count++;
         } else {
@@ -77,30 +78,37 @@ void Spurt::update()
     }
 
     // decide if we want to start a new spurt
-    if (count < SPURT_COUNT) {
-        if (random(SPURT_PROBABILITY) == 0) {
-            r = random(256);
-            g = random(256);
-            b = random(256);
-            uint32_t col = (r<<16) + (g<<8) + b;
-            float vel = random(3, 100)/1000.;
-#ifdef DEBUGFLARE
-            Serial.print(F("FIRE col=0x"));
-            Serial.print(col, HEX);
-            Serial.print(F(" vel="));
-            Serial.println(vel, 5);
-#endif
-            _spurts[inactiveIdx].fire(col, vel);
+    if (count < FLARE_SPURT_COUNT) {
+        if (random(FLARE_SPURT_DELAY) == 0) {
+            fire(inactiveIdx);
         }
     }
 
     // plot active spurts
-    for (uint8_t i=0; i<SPURT_COUNT; i++) {
+    for (uint8_t i=0; i<FLARE_SPURT_COUNT; i++) {
         _spurts[i].draw();
     }
 
     LEDs.show();
 
 }
+
+void Spurt::fire(uint8_t slot)
+{
+    uint32_t r = random(256);
+    uint16_t g = random(256);
+    uint32_t b = random(256);
+    uint32_t col = (r<<16) + (r<<8) + r; 
+    float vel = random(FLARE_SPURT_VEL_MIN, FLARE_SPURT_VEL_MAX)/200.;
+#ifdef DEBUGFLARE
+    Serial.print(F("FIRE col=0x"));
+    Serial.print(col, HEX);
+    Serial.print(F(" vel="));
+    Serial.println(vel, 5);
+#endif
+    _spurts[slot].fire(col, vel);
+
+}
+
 
 

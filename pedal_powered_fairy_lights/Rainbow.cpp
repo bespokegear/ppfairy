@@ -15,7 +15,7 @@ Rainbow::~Rainbow()
 void Rainbow::update()
 {
     uint16_t elapsed = millis() - _lastUpdate;
-    if (elapsed < RAINBOW_DELAY_MS) {
+    if (elapsed < FLARE_RAINBOW_DELAY_MS) {
         return;
     }
     _lastUpdate = millis();
