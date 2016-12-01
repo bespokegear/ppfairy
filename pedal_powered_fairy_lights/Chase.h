@@ -5,13 +5,15 @@
 
 class Chase : public Flare {
 public:
-    Chase();
+    Chase(uint16_t chunkSize, unsigned long delay);
     virtual ~Chase();
     void update();
 
 private:
+    uint16_t _chunkSize;
+    unsigned long _delay;
     uint32_t _color;
-    uint8_t _chunkCounter;
+    uint16_t _chunkCounter;
     unsigned long _lastUpdate;
 
     void display();

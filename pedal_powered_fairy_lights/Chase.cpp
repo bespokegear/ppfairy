@@ -3,7 +3,9 @@
 #include "LEDs.h"
 #include <Arduino.h>
 
-Chase::Chase()
+Chase::Chase(uint16_t chunkSize, unsigned long delay) :
+    _chunkSize(chunkSize),
+    _delay(delay)
 {
     newColor();
     _lastUpdate = millis();
@@ -18,12 +20,12 @@ Chase::~Chase()
 void Chase::newColor()
 {
     _color = (random(256)<<16) + (random(256)<<8) + random(256);
-    _chunkCounter = FLARE_CHASE_CHUNKSIZE;
+    _chunkCounter = _chunkSize;
 }
 
 void Chase::update()
 {
-    if (_lastUpdate + FLARE_CHASE_DELAY_MS > millis()) {
+    if (_lastUpdate + _delay > millis()) {
         return;
     }
     _lastUpdate = millis();

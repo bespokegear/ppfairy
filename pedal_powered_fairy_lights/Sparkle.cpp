@@ -24,7 +24,7 @@ void Sparkle::display()
     uint8_t r = 255;
     uint8_t g = 255;
     uint8_t b = 255;
-    switch (random(17)) {
+    switch (random(15+FLARE_SPARKLE_DARKENING)) {
     case 0:
         g = 220;
         break;
@@ -37,11 +37,25 @@ void Sparkle::display()
         r = 80;
         g = 128;
         break;
-    default:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
         r = 30;
         g = 70;
         b = 205;
         break;
+    default:
+        r = 0;
+        g = 0;
+        b = 0;
     }
 
     LEDs.setPixelColor(i, r, g, b);

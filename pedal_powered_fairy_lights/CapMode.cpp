@@ -2,7 +2,6 @@
 #include "Util.h"
 #include "CapVoltage.h"
 #include "LEDs.h"
-#include "ColorFill.h"
 #include "Sparkle.h"
 #include "Rainbow.h"
 #include "Spurt.h"
@@ -18,7 +17,7 @@ CapMode::CapMode() :
 #endif
     _flare = NULL;
 #ifdef FLARE_SEQUENTIAL
-    _last_flare_id = 2;
+    _last_flare_id = 0;
 #endif
 }
 
@@ -100,13 +99,13 @@ void CapMode::startFlare()
 #ifdef DEBUGFLARE
         Serial.println(F("Flare: Chase"));
 #endif
-        _flare = new Chase();
+        _flare = new Chase(FLARE_CHASE_CHUNKSIZE, FLARE_CHASE_DELAY_MS);
         break;
     default:
 #ifdef DEBUGFLARE
         Serial.println(F("Flare: ColorFill"));
 #endif
-        _flare = new ColorFill();
+        _flare = new Chase(NUMBER_OF_LEDS, FLARE_COLORFILL_DELAY_MS);
         break;
     }
     _inFlare = true;
