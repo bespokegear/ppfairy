@@ -17,6 +17,9 @@ public:
 private:
     bool _inFlare;
     Flare* _flare;
+#ifdef FLARE_SEQUENTIAL
+    uint8_t _last_flare_id;
+#endif
 
 };
 

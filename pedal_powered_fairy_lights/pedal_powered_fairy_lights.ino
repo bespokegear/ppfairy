@@ -70,6 +70,9 @@ void setup()
 {
     Serial.begin(115200);
 
+    // Get random seed from foating analog inputs
+    randomSeed((analogRead(A4)<<8) + analogRead(A5));
+
     // Use external reference
     analogReference(EXTERNAL);
 
@@ -89,6 +92,7 @@ void setup()
 
     // Configure global Adafruit_Neopixel object (from LEDs.h)
     LEDs.begin();
+    LEDs.setBrightness(LED_BRIGHTNESS);
     LEDs.clear();
     LEDs.show(); // Initialize all pixels to 'off'
 

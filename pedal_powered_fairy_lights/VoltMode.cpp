@@ -81,9 +81,9 @@ void VoltMode::modeUpdate()
     uint16_t prevInt = (uint16_t)_lastPixel;
     float linear = (float)(vIn-VOLT_MODE_VMIN) / (VOLT_MODE_VMAX-VOLT_MODE_VMIN);
     float nonLinear = calculateLinearity(linear, VOLT_MODE_LINEARITY);
-    if (_lastPixel + nonLinear < NUMBER_OF_PIXELS+1) {
-        // The -(float)NUMBER_OF_PIXELS/LED_SPEED_FACTOR) is to compensate for time taken sending data on longer strings
-        _lastPixel += nonLinear * (NUMBER_OF_PIXELS*elapsed/(VOLT_MODE_FASTEST_SEC-(float)NUMBER_OF_PIXELS/LED_SPEED_FACTOR));
+    if (_lastPixel + nonLinear < NUMBER_OF_LEDS+1) {
+        // The -(float)NUMBER_OF_LEDS/LED_SPEED_FACTOR) is to compensate for time taken sending data on longer strings
+        _lastPixel += nonLinear * (NUMBER_OF_LEDS*elapsed/(VOLT_MODE_FASTEST_SEC-(float)NUMBER_OF_LEDS/LED_SPEED_FACTOR));
     }
     // have we gone up past another whole number?
 #ifdef DEBUGVIN
@@ -147,8 +147,8 @@ void VoltMode::restoreFromEEPROM()
     uint8_t* ptr = (uint8_t*)(&lp);
     ptr[0] = EEPROM.read(0);
     ptr[1] = EEPROM.read(1);
-    if (lp > NUMBER_OF_PIXELS) {
-        lp = NUMBER_OF_PIXELS;
+    if (lp > NUMBER_OF_LEDS) {
+        lp = NUMBER_OF_LEDS;
     }
     _lastPixel = lp;
 #ifdef DEBUG

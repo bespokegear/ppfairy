@@ -2,7 +2,10 @@
 #include "Util.h"
 #include "CapVoltage.h"
 #include "LEDs.h"
-#include "ColorFill.h"
+#include "Sparkle.h"
+#include "Rainbow.h"
+#include "Spurt.h"
+#include "Chase.h"
 #include <Arduino.h>
 
 CapMode::CapMode() :
@@ -13,6 +16,9 @@ CapMode::CapMode() :
     Serial.println(CapVoltage.getPin());
 #endif
     _flare = NULL;
+#ifdef FLARE_SEQUENTIAL
+    _last_flare_id = 2;
+#endif
 }
 
 void CapMode::reset()
@@ -64,7 +70,44 @@ void CapMode::startFlare()
     if (_flare) {
         delete _flare;
     }
-    _flare = new ColorFill();
+#ifdef FLARE_SEQUENTIAL
+    uint8_t flare_id = (_last_flare_id+1) % FLARE_TYPE_COUNT;
+    _last_flare_id = flare_id;
+#else
+    uint8_t flare_id = random(FLARE_TYPE_COUNT);
+#endif
+    switch (flare_id) {
+    case 0:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: Rainbow"));
+#endif
+        _flare = new Rainbow();
+        break;
+    case 1:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: Sparkle"));
+#endif
+        _flare = new Sparkle();
+        break;
+    case 2:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: Spurt"));
+#endif
+        _flare = new Spurt();
+        break;
+    case 3:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: Chase"));
+#endif
+        _flare = new Chase(FLARE_CHASE_CHUNKSIZE, FLARE_CHASE_DELAY_MS);
+        break;
+    default:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: ColorFill"));
+#endif
+        _flare = new Chase(NUMBER_OF_LEDS, FLARE_COLORFILL_DELAY_MS);
+        break;
+    }
     _inFlare = true;
 }
 
