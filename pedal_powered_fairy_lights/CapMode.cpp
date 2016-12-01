@@ -17,7 +17,7 @@ CapMode::CapMode() :
 #endif
     _flare = NULL;
 #ifdef FLARE_SEQUENTIAL
-    _last_flare_id = 0;
+    _last_flare_id = 2;
 #endif
 }
 

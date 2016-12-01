@@ -79,7 +79,7 @@ void Spurt::update()
 
     // decide if we want to start a new spurt
     if (count < FLARE_SPURT_COUNT) {
-        if (random(FLARE_SPURT_DELAY) == 0) {
+        if (random(FLARE_SPURT_DELAY) == 0 || count == 0) {
             fire(inactiveIdx);
         }
     }

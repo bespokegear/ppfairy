@@ -5,7 +5,8 @@
 
 Chase::Chase(uint16_t chunkSize, unsigned long delay) :
     _chunkSize(chunkSize),
-    _delay(delay)
+    _delay(delay),
+    _divider(false)
 {
     newColor();
     _lastUpdate = millis();
@@ -19,8 +20,12 @@ Chase::~Chase()
 
 void Chase::newColor()
 {
-    _color = (random(256)<<16) + (random(256)<<8) + random(256);
+    uint32_t r = random(256)/(_divider?4:1);
+    uint16_t g = random(256)/(_divider?4:1);
+    uint8_t  b = random(256)/(_divider?4:1);
+    _color = (r<<16) + (g<<8) + b;
     _chunkCounter = _chunkSize;
+    _divider = !_divider;
 }
 
 void Chase::update()
@@ -38,6 +43,7 @@ void Chase::update()
     for (uint16_t i=NUMBER_OF_LEDS-1; i>0; i--) {
         LEDs.setPixelColor(i, LEDs.getPixelColor(i-1));
     }
+
     // Set first pixel to current pixel color
     LEDs.setPixelColor(0, _color);
     LEDs.show();

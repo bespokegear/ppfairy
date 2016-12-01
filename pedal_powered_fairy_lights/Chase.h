@@ -13,6 +13,7 @@ private:
     uint16_t _chunkSize;
     unsigned long _delay;
     uint32_t _color;
+    bool _divider;
     uint16_t _chunkCounter;
     unsigned long _lastUpdate;
 

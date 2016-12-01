@@ -3,7 +3,8 @@
 #include "LEDs.h"
 #include <Arduino.h>
 
-Sparkle::Sparkle()
+Sparkle::Sparkle() :
+    _lastUpdate(0)
 {
 }
 
@@ -15,6 +16,10 @@ Sparkle::~Sparkle()
 
 void Sparkle::update()
 {
+    if (millis() < _lastUpdate + FLARE_SPARKLE_UPDATE_MS) {
+        return;
+    }
+    _lastUpdate = millis()+FLARE_SPARKLE_UPDATE_MS;
     display();
 }
 

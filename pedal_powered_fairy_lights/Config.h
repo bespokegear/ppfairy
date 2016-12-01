@@ -65,7 +65,8 @@
 // Flare mode specific params
 #define FLARE_RAINBOW_DELAY_MS      5
 // Higher values = sparse sparkles
-#define FLARE_SPARKLE_DARKENING     30
+#define FLARE_SPARKLE_DARKENING     5
+#define FLARE_SPARKLE_UPDATE_MS     10
 #define FLARE_SPURT_COUNT           (NUMBER_OF_LEDS/20)
 // Increase this to have spurts appear less often
 #define FLARE_SPURT_DELAY           200
@@ -75,7 +76,7 @@
 // How many pixels between color changes
 #define FLARE_CHASE_CHUNKSIZE       5
 // How long to wait between pixel shifts
-#define FLARE_CHASE_DELAY_MS        30
+#define FLARE_CHASE_DELAY_MS        50
 // How long to wait between pixel shifts in ColorFill mode
 #define FLARE_COLORFILL_DELAY_MS    10
 

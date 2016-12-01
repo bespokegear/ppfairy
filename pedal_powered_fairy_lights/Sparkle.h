@@ -10,5 +10,6 @@ public:
     void update();
 
 private:
+    unsigned long _lastUpdate;
     void display();
 };
