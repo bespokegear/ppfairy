@@ -98,7 +98,7 @@ void Spurt::fire(uint8_t slot)
     uint32_t r = random(256);
     uint16_t g = random(256);
     uint32_t b = random(256);
-    uint32_t col = (r<<16) + (r<<8) + r; 
+    uint32_t col = (r<<16) + (g<<8) + b; 
     float vel = random(FLARE_SPURT_VEL_MIN, FLARE_SPURT_VEL_MAX)/200.;
 #ifdef DEBUGFLARE
     Serial.print(F("FIRE col=0x"));

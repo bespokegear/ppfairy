@@ -54,7 +54,7 @@
 #define CAP_MODE_HIGH_VOLTS         1320
 
 // Params for flare modes
-#define FLARE_TYPE_COUNT            4
+#define FLARE_TYPE_COUNT            5
 // comment this out for randomized flare selection
 #define FLARE_SEQUENTIAL            1
 
@@ -65,4 +65,6 @@
 #define FLARE_SPURT_DELAY           300
 #define FLARE_SPURT_VEL_MIN         (NUMBER_OF_LEDS/30)
 #define FLARE_SPURT_VEL_MAX         NUMBER_OF_LEDS
+#define FLARE_CHASE_CHUNKSIZE       5
+#define FLARE_CHASE_DELAY_MS        30
 

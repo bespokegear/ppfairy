@@ -6,6 +6,7 @@
 #include "Sparkle.h"
 #include "Rainbow.h"
 #include "Spurt.h"
+#include "Chase.h"
 #include <Arduino.h>
 
 CapMode::CapMode() :
@@ -17,7 +18,7 @@ CapMode::CapMode() :
 #endif
     _flare = NULL;
 #ifdef FLARE_SEQUENTIAL
-    _last_flare_id = 1;
+    _last_flare_id = 2;
 #endif
 }
 
@@ -94,6 +95,12 @@ void CapMode::startFlare()
         Serial.println(F("Flare: Spurt"));
 #endif
         _flare = new Spurt();
+        break;
+    case 3:
+#ifdef DEBUGFLARE
+        Serial.println(F("Flare: Chase"));
+#endif
+        _flare = new Chase();
         break;
     default:
 #ifdef DEBUGFLARE
